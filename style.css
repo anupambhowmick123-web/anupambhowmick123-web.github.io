@@ -1,0 +1,314 @@
+/* ============================================================
+   DESIGN SYSTEM — Anupam Bhowmick Portfolio
+   Source: Figma 8GEqwkx0ENInCieGuJe1gp (97:472 Home, 97:772 Work)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap');
+
+/* ── Design Tokens ───────────────────────────────────────── */
+:root {
+  /* Colors */
+  --color-dark:    #252525;
+  --color-light:   #F1EDEA;
+  --color-light-2: #B7B2AA;
+  --color-border:  #6A665F;
+  --color-img-bg:  rgba(183, 178, 170, 0.04);
+
+  /* Typography */
+  --font: 'Sora', sans-serif;
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--color-dark);
+  color: var(--color-light-2);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* Bullets align flush with paragraph text — marker sits in the 1em gutter */
+ul {
+  padding-left: 1em;
+  list-style-position: outside;
+}
+ol {
+  padding-left: 1.4em;
+  list-style-position: outside;
+}
+
+/* ── Page shell ──────────────────────────────────────────── */
+/* px-[380px] py-[128px] — Figma: pL=380, pR=380, pT=128, pB=128 */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 128px 380px;
+}
+
+/* Bio page content col: w-[680px] gap-[132px] */
+.content {
+  width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 132px;
+  flex-shrink: 0;
+}
+
+/* Work page content col: gap-[120px] flex-1 */
+.content--work {
+  width: 680px;
+  gap: 120px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TYPOGRAPHY
+══════════════════════════════════════════════════════════ */
+
+/* H1 — 32/40 600 #F1EDEA */
+.ds-h1 {
+  font-size: 32px; font-weight: 600; line-height: 40px;
+  color: var(--color-light);
+}
+/* H2 — 24/32 600 #F1EDEA */
+.ds-h2 {
+  font-size: 24px; font-weight: 600; line-height: 32px;
+  color: var(--color-light);
+}
+/* H2 muted — 24/32 600 #B7B2AA */
+.ds-h2-muted {
+  font-size: 24px; font-weight: 600; line-height: 32px;
+  color: var(--color-light-2);
+}
+/* H3 — 16/24 600 #F1EDEA */
+.ds-h3 {
+  font-size: 16px; font-weight: 600; line-height: 24px;
+  color: var(--color-light);
+}
+/* H3 muted — 16/24 600 #B7B2AA */
+.ds-h3-muted {
+  font-size: 16px; font-weight: 600; line-height: 24px;
+  color: var(--color-light-2);
+}
+/* Body — 14/22 400 #B7B2AA */
+.ds-body {
+  font-size: 14px; font-weight: 400; line-height: 22px;
+  color: var(--color-light-2);
+}
+.ds-body p, .ds-body li {
+  font-size: 14px; line-height: 22px;
+}
+/* Caption — 12/16 400 #B7B2AA */
+.ds-caption {
+  font-size: 12px; font-weight: 400; line-height: 16px;
+  color: var(--color-light-2);
+}
+
+/* ══════════════════════════════════════════════════════════
+   LINK DESIGN SYSTEM
+══════════════════════════════════════════════════════════ */
+
+/* Active/bright link — #F1EDEA underline */
+.ds-link {
+  font-size: 14px; font-weight: 600; line-height: 20px;
+  color: var(--color-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ds-link:hover { opacity: 0.55; }
+
+/* Muted link — #B7B2AA underline */
+.ds-link-muted {
+  font-size: 14px; font-weight: 600; line-height: 20px;
+  color: var(--color-light-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ds-link-muted:hover { color: var(--color-light); }
+
+/* Shared link row — gap-[24px] */
+.ds-link-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* List indentation */
+.ds-list { padding-left: 1em; }
+.ds-list li { line-height: 22px; }
+
+/* Footer divider */
+.ds-footer {
+  border-top: 1px solid var(--color-border);
+  padding-top: 33px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HOME PAGE (index.html — node 97:472)
+   Content col gap: 132px
+══════════════════════════════════════════════════════════ */
+
+/* Section A: nav + identity + bio + link  (gap-[52px]) */
+.bio-top {
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+/* Header group: nav first, then identity  (gap-[52px]) */
+.bio-header-group {
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+/* Nav row — gap-[42px] */
+.nav-row {
+  display: flex;
+  gap: 42px;
+  align-items: flex-start;
+}
+
+/* Identity column — gap-[12px] outer */
+.bio-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Name + role — gap-[8px] */
+.bio-name-role {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Section B: Design Principles  (gap-[52px]) */
+.bio-principles {
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+/* Section C: Let's Connect  (gap-[48px]) */
+.bio-connect {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.bio-connect-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   WORK PAGE (work.html — node 97:772)
+   Content col gap: 120px
+══════════════════════════════════════════════════════════ */
+
+/* Main section — gap-[72px] */
+.work-top {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+/* Nav — left-aligned (user request), gap-[42px] */
+.work-nav {
+  display: flex;
+  gap: 42px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* Project list — gap-[132px] */
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 132px;
+}
+
+/* Design System entry — gap-[42px] */
+.project-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+/* Other entries — gap-[20px] */
+.project-entry.slim {
+  gap: 20px;
+}
+
+/* Title + description block — gap-[20px] */
+.project-header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Image placeholder */
+.project-img {
+  width: 100%;
+  height: 439px;
+  background: var(--color-img-bg);
+  flex-shrink: 0;
+}
+
+/* "Currently working on" wrapper — gap-[60px] between label + project */
+.currently-working {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+/* Section label — H3 style */
+.work-section-label {
+  font-size: 16px; font-weight: 600; line-height: 24px;
+  color: var(--color-light);
+}
+
+/* Footer — gap-[48px] */
+.work-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1280px) {
+  .page { padding: 128px 80px; }
+  .content, .content--work { width: 100%; max-width: 680px; }
+}
+@media (max-width: 900px) {
+  .page { padding: 80px 40px; }
+  .content { gap: 80px; }
+  .content--work { gap: 80px; }
+  .project-list { gap: 80px; }
+  .work-top { gap: 48px; }
+  .bio-top { gap: 40px; }
+  .bio-header-group { gap: 40px; }
+  .bio-principles { gap: 40px; }
+}
+@media (max-width: 480px) {
+  .page { padding: 48px 20px; }
+  .content { gap: 60px; }
+  .content--work { gap: 60px; }
+  .project-list { gap: 60px; }
+  .project-img { height: 220px; }
+  .nav-row { gap: 24px; }
+  .work-nav { gap: 24px; }
+  .ds-link-row { gap: 16px; }
+  .currently-working { gap: 40px; }
+}
