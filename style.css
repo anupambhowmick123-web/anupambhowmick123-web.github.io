@@ -307,13 +307,16 @@ html.light .theme-toggle .icon-moon { display: block; }
   z-index: 1;
 }
 
-/* Homepage — 128px top padding (matches Figma py-128) */
-body.home .page { padding-top: 128px; }
+/* Homepage — 100px top padding (148px Figma minus 48px sticky nav) */
+body.home .page { padding-top: 100px; }
 
 /* Payments — 128px top padding, 92px between sections, 124px to footer */
 body.payments .page { padding-top: 128px; }
 body.payments .project-main { gap: 92px; }
 body.payments .content { gap: 124px; }
+/* Match Figma: paragraph → bullet list spacing equals paragraph → paragraph (24px) */
+body.payments .cs-body p + ul,
+body.payments .cs-body p + ol { margin-top: 24px; }
 
 /* Onboarding — same outer rhythm as Payments, 72px between Solution subsections */
 body.onboarding .page { padding-top: 128px; }
@@ -321,6 +324,14 @@ body.onboarding .project-main { gap: 92px; }
 body.onboarding .content { gap: 124px; }
 body.onboarding .cs-subsections { gap: 72px; }
 body.onboarding .project-section > .cs-subsections { margin-top: 0; }
+/* Match Figma cs-body rhythm: 20px between paragraph blocks, 8px between list items */
+body.onboarding .cs-body p + p { margin-top: 20px; }
+body.onboarding .cs-body p + ul,
+body.onboarding .cs-body p + ol { margin-top: 12px; }
+body.onboarding .cs-body ul + p,
+body.onboarding .cs-body ol + p { margin-top: 20px; }
+body.onboarding .cs-body ul,
+body.onboarding .cs-body ol { gap: 8px; }
 
 .content {
   width: 680px;
@@ -521,14 +532,45 @@ body.onboarding .project-section > .cs-subsections { margin-top: 0; }
   display: flex; flex-direction: column; gap: 132px;
 }
 
-/* Hero block: identity + bio — gap 32px */
+/* Hero block: identity + statement+bio — large gap creates open top */
 .bio-identity-group {
-  display: flex; flex-direction: column; gap: 32px;
+  display: flex; flex-direction: column; gap: 282px;
 }
 
 /* Identity block: name, role, company — 4px gap (matches Figma) */
 .bio-identity {
   display: flex; flex-direction: column; gap: 4px;
+}
+
+/* Company line — 16px Sora SemiBold muted, with right-arrow icon */
+.bio-company {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font);
+  font-size: 16px; font-weight: 600; line-height: 28px;
+  color: var(--color-light-2);
+  text-decoration: none;
+  width: fit-content;
+  transition: color 0.15s ease;
+}
+.bio-company:hover { color: var(--color-light-1); }
+.bio-company-arrow {
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.bio-company:hover .bio-company-arrow { transform: translateX(2px); }
+
+/* Statement + 9-years bio — gap 16px (matches Figma) */
+.bio-statement-block {
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+/* Statement — 20px Sora SemiBold, light-1 (same spec as ds-h3) */
+.bio-statement {
+  font-family: var(--font);
+  font-size: 20px; font-weight: 600; line-height: 28px;
+  color: var(--color-light-1);
 }
 
 /* Bio text — Source Serif Pro 18/28 (matches Figma body) */
@@ -539,15 +581,14 @@ body.onboarding .project-section > .cs-subsections { margin-top: 0; }
 }
 .bio-text p { margin-bottom: 0; }
 
-/* Inline highlight: light-1 color + Source Serif Pro 600 (no underline) */
+/* Inline highlight — light-1 colour, no weight change (matches Figma "9 years") */
 .text-highlight {
   color: var(--color-light-1);
-  font-weight: 600;
 }
 
-/* Section: heading + content — gap 40px */
+/* Section: heading + content — gap 32px (matches Figma) */
 .bio-section {
-  display: flex; flex-direction: column; gap: 40px;
+  display: flex; flex-direction: column; gap: 32px;
 }
 
 /* Work at Xoxoday — flat flex column, gap 44px between all items */
@@ -600,70 +641,88 @@ body.onboarding .project-section > .cs-subsections { margin-top: 0; }
   gap: 4px;
 }
 
-/* Project cards */
+/* Project cards — split layout: thumbnail (left) + content (right).
+   No card chrome — content aligns with the page column. Thumbnail keeps its
+   own panel bg (#313131); content sits directly on the page bg. */
 .project-card {
-  background: var(--color-card-bg);
-  border-radius: 8px;
-  padding: 32px;
   display: flex;
-  flex-direction: column;
+  align-items: stretch;
+  gap: 50px;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-  will-change: transform;
-}
-.project-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-}
-html.light .project-card:hover {
-  box-shadow: 0 12px 28px rgba(8, 27, 45, 0.10);
 }
 .project-card:focus-visible {
   outline: 2px solid var(--color-light-1);
-  outline-offset: 2px;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.project-card-thumb {
+  flex-shrink: 0;
+  width: 249px;
+  align-self: stretch;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--color-dark-2);
+  position: relative;
+}
+.project-card-thumb img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+.project-card:hover .project-card-thumb img,
+.project-card:focus-visible .project-card-thumb img {
+  transform: scale(1.04);
 }
 
 .project-card-content {
-  display: flex; flex-direction: column; gap: 20px;
-  width: 100%;
-}
-
-/* Title + arrow row — arrow sits at the top-right of the card */
-.project-card-header {
+  flex: 1;
+  min-width: 0;
+  margin: 4px 0;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .project-card-title {
   font-family: var(--font);
   font-size: 16px; font-weight: 600; line-height: 28px;
   color: var(--color-light-1);
-  flex: 1;
-  min-width: 0;
-}
-
-/* Next-arrow icon at top-right corner — colours via currentColor */
-.project-card-arrow {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  margin-top: 4px;
-  color: var(--color-light-2);
-  transition: transform 0.15s ease, color 0.15s ease;
-}
-.project-card:hover .project-card-arrow {
-  transform: translateX(4px);
-  color: var(--color-light-1);
 }
 
 .project-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   font-family: var(--font-body);
   font-size: 18px; font-weight: 400; line-height: 28px;
   color: var(--color-light-2);
+}
+.project-card-body p { margin: 0; }
+
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+}
+.project-card-tag {
+  background: var(--color-dark-2);
+  color: var(--color-light-2);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
 /* Experience — simple stacked entries */
@@ -1145,6 +1204,12 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 }
 .cs-workflow-label { font-weight: 400; }
 .cs-workflow-flow { font-weight: 600; color: var(--color-light-1); }
+.cs-workflow-caption {
+  font-family: var(--font);
+  font-size: 12px; font-weight: 400; line-height: 16px;
+  color: var(--color-light-2);
+  margin-top: -8px;
+}
 
 /* Impact list with bold item headings */
 .cs-impact-list {
@@ -1214,30 +1279,43 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 }
 
 @media (max-width: 900px) {
-  .page             { padding-top: 60px; padding-bottom: 100px; }
-  .content          { gap: 120px; }
-  .bio-main         { gap: 80px; }
-  .work-section     { gap: 32px; }
-  .work-main        { gap: 48px; }
-  .project-list     { gap: 72px; }
-  .project-main     { gap: 52px; }
+  .page                 { padding-top: 60px; padding-bottom: 100px; }
+  .content              { gap: 120px; }
+  .bio-main             { gap: 80px; }
+  .bio-identity-group   { gap: 160px; }
+  .work-section         { gap: 32px; }
+  .work-main            { gap: 48px; }
+  .project-list         { gap: 72px; }
+  .project-main         { gap: 52px; }
   .project-img-placeholder { height: 280px; }
-  .work-focus-row   { flex-direction: column; gap: 8px; }
-  .work-focus-label { width: 100%; }
-  .work-focus-desc  { width: 100%; }
+  .work-focus-row       { flex-direction: column; gap: 8px; }
+  .work-focus-label     { width: 100%; }
+  .work-focus-desc      { width: 100%; }
+}
+
+/* Project card stacks vertically on narrow viewports — thumbnail on top */
+@media (max-width: 720px) {
+  .project-card        { flex-direction: column; align-items: stretch; gap: 24px; }
+  .project-card-thumb  { width: 100%; height: 300px; aspect-ratio: auto; }
+  .project-card-body   { font-size: 16px; line-height: 26px; gap: 20px; }
+  .project-card-tags   { gap: 12px; }
 }
 
 @media (max-width: 600px) {
-  .site-nav         { height: auto; min-height: 44px; }
-  .nav-left         { gap: 24px; }
-  .nav-right        { gap: 16px; }
-  .page             { padding-top: 48px; padding-bottom: 80px; }
-  .content          { gap: 80px; }
-  .bio-main         { gap: 60px; }
-  .bio-section      { gap: 24px; }
-  .work-section     { gap: 24px; }
-  .project-card     { padding: 20px; }
-  .project-card-title { font-size: 17px; line-height: 24px; }
+  .site-nav             { height: auto; min-height: 44px; }
+  .nav-left             { gap: 24px; }
+  .nav-right            { gap: 16px; }
+  .page                 { padding-top: 48px; padding-bottom: 80px; }
+  .content              { gap: 80px; }
+  .bio-main             { gap: 60px; }
+  .bio-identity-group   { gap: 96px; }
+  .bio-statement        { font-size: 18px; line-height: 26px; }
+  .bio-section          { gap: 24px; }
+  .work-section         { gap: 24px; }
+  .project-card     { gap: 20px; }
+  .project-card-thumb { height: 300px; }
+  .project-card-content { gap: 16px; }
+  .project-card-title { font-size: 16px; line-height: 24px; }
   .project-img-placeholder { height: 200px; }
   .project-main     { gap: 40px; }
   .project-hero-title { font-size: 26px; line-height: 36px; }

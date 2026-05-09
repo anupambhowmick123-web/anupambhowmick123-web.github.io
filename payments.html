@@ -72,7 +72,7 @@
         <div class="project-hero">
           <div class="project-hero-text">
             <h1 class="project-hero-title">Enterprise Payments Management System</h1>
-            <p class="project-hero-desc">We restructured payments by centralising financial workflows into a single system, reducing finance-related support tickets by ~25–35% and cutting manual reconciliation effort by ~30%.</p>
+            <p class="project-hero-desc">Scattered payment workflows forced finance teams into manual reconciliation and support dependency. Restructured into a unified payments system, reducing support tickets by ~25–35% and reconciliation effort by ~30%.</p>
           </div>
           <div class="cs-img-wrap">
             <div class="cs-panel-full">
@@ -81,27 +81,12 @@
           </div>
         </div>
 
-        <!-- ── Problem ── -->
+        <!-- ── Context ── -->
         <div class="project-section">
-          <h2 class="project-section-heading">Problem</h2>
+          <h2 class="project-section-heading">Context</h2>
           <div class="cs-body">
-            <p>As Xoxoday Plum scaled with large enterprise clients, finance teams began actively using the platform to manage high-volume transactions and budgets.</p>
-            <p>However, <span class="cs-link">payment data was scattered</span> across the product, with <span class="cs-link">redemption and financial data mixed together</span>, making it difficult to isolate and manage financial information. This led to -</p>
-            <ul>
-              <li>Delays in financial closing</li>
-              <li>Increased support dependencies</li>
-              <li>Reduced trust in financial transparency</li>
-              <li>Risk of accounting mistakes</li>
-            </ul>
-          </div>
-          <div class="cs-img-wrap">
-            <div class="cs-panel-full">
-              <img src="images/Payments image 2.png" alt="Reports view with redemption and financial data combined in a single tab" />
-            </div>
-            <p class="cs-img-caption">Before: Redemption and financial data combined in a single Reports tab</p>
-          </div>
-          <div class="cs-body">
-            <p>There was a clear need to create a structured payment experience that gives finance teams clear visibility, audit-ready data, and independent control, without relying on support or engineering.</p>
+            <p>At Xoxoday, <span class="cs-link">enterprise clients use Plum to fund reward programs</span>, manage balances, track transactions, and handle invoices across large-scale employee and customer reward campaigns. Finance teams regularly interacted with wallets, transactions, invoices, reconciliation, exports and reporting used to fund these reward programs.</p>
+            <p>As the platform evolved, these <span class="cs-link">workflows became fragmented across multiple sections of the product</span>, making financial operations increasingly difficult to manage.</p>
           </div>
         </div>
 
@@ -113,17 +98,52 @@
           </div>
         </div>
 
+        <!-- ── Existing System ── -->
+        <div class="project-section">
+          <h2 class="project-section-heading">Existing System</h2>
+          <div class="cs-body">
+            <p>The platform was originally designed around campaign operations, with financial workflows added gradually as enterprise usage expanded.</p>
+            <p>Over time, payments, reporting, invoices, and transaction management evolved independently across the product without a unified financial system structure.</p>
+          </div>
+        </div>
+
+        <!-- ── Problem ── -->
+        <div class="project-section">
+          <h2 class="project-section-heading">Problem</h2>
+          <div class="cs-body">
+            <p>Since <span class="cs-link">finance workflows</span> were deeply fragmented across the platform, critical financial operations like balance tracking, invoice management, transaction exports, and reconciliation <span class="cs-link">were spread across disconnected sections built for different operational use cases.</span></p>
+            <p>This created major challenges:</p>
+            <ul>
+              <li>Payments and redemption data were mixed together</li>
+              <li>Reports lacked financial clarity</li>
+              <li>Reconciliation depended heavily on manual exports</li>
+              <li>Invoice visibility was inconsistent</li>
+              <li>Finance teams relied on support for operational tracking</li>
+            </ul>
+          </div>
+          <div class="cs-img-wrap">
+            <div class="cs-panel-full">
+              <img src="images/Payments image 2.png" alt="Reports view with redemption and financial data combined in a single tab" />
+            </div>
+            <p class="cs-img-caption">Before: Redemption and financial data combined in a single Reports tab</p>
+          </div>
+          <div class="cs-body">
+            <p>As enterprise usage scaled, operational overhead increased significantly, especially for teams handling large reward spends across multiple campaigns and business units.</p>
+          </div>
+        </div>
+
         <!-- ── Strategy and Direction ── -->
         <div class="project-section">
           <h2 class="project-section-heading">Strategy and Direction</h2>
           <div class="cs-body">
-            <p>We focused on understanding how finance teams were actually managing payments.</p>
+            <p>We worked closely with finance and operations teams to understand how reconciliation, invoice tracking, and transaction visibility were being managed across the platform.</p>
+            <p>Early explorations focused on:</p>
             <ul>
-              <li>Payment information was scattered, forcing teams to jump between sections</li>
-              <li>Ledger and redemption data were mixed, making reconciliation slow and unclear</li>
-              <li>Teams relied on manual downloads and offline reconciliation, increasing effort and error risk</li>
+              <li>Improving existing reports and filters</li>
+              <li>Restructuring reporting hierarchies</li>
+              <li>Separating financial and operational data</li>
             </ul>
-            <p><span class="cs-link">Finance teams lacked a reliable, single source of truth</span>. Our direction was to build a dedicated payments system, a single space for all financial operations.</p>
+            <p>We realised the issue was structural, not just usability. Instead of extending fragmented workflows further, <span class="cs-link">we shifted toward a finance-oriented system with dedicated visibility for balances, transactions, invoices, and reconciliation.</span></p>
           </div>
         </div>
 
@@ -172,7 +192,7 @@
                 <div class="cs-panel-full">
                   <img src="images/Payments image 5.png" alt="Wallet overview showing available balance, pending funds, and recent activity" />
                 </div>
-                <p class="cs-img-caption">Wallet overview with balance, pending funds, and recent activity</p>
+                <p class="cs-img-caption">Wallet overview with balances, pending funds, and recent activity</p>
               </div>
             </div>
 
@@ -249,13 +269,16 @@
         <div class="project-section">
           <h2 class="project-section-heading">Impact</h2>
           <div class="cs-body">
+            <p>The new payments system created a clearer financial workflow for enterprise teams by separating accounting operations from reward operations.</p>
+            <p>Outcomes included:</p>
             <ul>
-              <li>Reduced finance-related support tickets by ~25–35%</li>
-              <li>Cut manual reconciliation effort by ~30%</li>
-              <li>Reduced operational confusion across finance workflows</li>
-              <li>Enabled finance teams to independently manage payments and invoices</li>
-              <li>Improved clarity and control over financial data across the platform</li>
+              <li><span class="cs-link">~25–35%</span> reduction in finance-related support tickets</li>
+              <li>Reduced manual reconciliation effort by <span class="cs-link">~30%</span></li>
+              <li>Faster invoice tracking and payment visibility</li>
+              <li>Lower operational dependency on exports</li>
+              <li>Improved financial clarity across enterprise workflows</li>
             </ul>
+            <p>The system also established a scalable foundation for future financial operations across the platform.</p>
           </div>
         </div>
 
@@ -274,15 +297,35 @@
         <div class="more-projects">
           <h2 class="ds-h2">More Projects</h2>
           <a href="ai-system.html" class="project-card">
+            <div class="project-card-thumb">
+              <img src="images/AI-Driven Product Development System - Thumbnail.png" alt="" loading="lazy" />
+            </div>
             <div class="project-card-content">
-              <div class="project-card-header"><p class="project-card-title">AI-Driven Product Development System</p><svg class="project-card-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.16667 10H15.8333" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 4.16667L15.8333 10L10 15.8333" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <p class="project-card-body">Building a unified design and engineering foundation that enables teams to design, build, and ship using AI, <span class="text-highlight">improving development speed and quality.</span></p>
+              <p class="project-card-title">AI-Driven Product Development System</p>
+              <div class="project-card-body">
+                <p>Fragmented design systems slowed development and made AI outputs unreliable.</p>
+                <p>Built a unified design + engineering foundation, enabling AI-driven workflows to improve speed and consistency.</p>
+              </div>
+              <div class="project-card-tags">
+                <span class="project-card-tag">AI Workflow</span>
+                <span class="project-card-tag">Design Systems</span>
+              </div>
             </div>
           </a>
           <a href="onboarding.html" class="project-card">
+            <div class="project-card-thumb">
+              <img src="images/Onboarding - Thumbnail.png" alt="" loading="lazy" />
+            </div>
             <div class="project-card-content">
-              <div class="project-card-header"><p class="project-card-title">Onboarding Re-Architecture</p><svg class="project-card-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.16667 10H15.8333" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 4.16667L15.8333 10L10 15.8333" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <p class="project-card-body">Restructured account creation and onboarding by simplifying signup and guiding users to their first reward, reducing <span class="text-highlight">early drop-offs by ~70%</span> and increasing conversion to <span class="text-highlight">paying customers by ~12%.</span></p>
+              <p class="project-card-title">Onboarding Re-Architecture</p>
+              <div class="project-card-body">
+                <p>Complex onboarding flows led to early drop-offs and low activation.</p>
+                <p>Simplified signup and guided users to first reward, reducing drop-offs by ~70% and increasing conversion by ~12%.</p>
+              </div>
+              <div class="project-card-tags">
+                <span class="project-card-tag">User Onboarding</span>
+                <span class="project-card-tag">Admin Platform</span>
+              </div>
             </div>
           </a>
         </div>
