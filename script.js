@@ -67,6 +67,33 @@ if (resumeModal) {
   });
 }
 
+// Force a real download on mobile (iOS Safari ignores the `download` attr on <a>).
+async function forceDownload(e) {
+  const a = e.currentTarget;
+  const href = a.getAttribute('href');
+  const filename = a.getAttribute('download') || 'download.pdf';
+  if (!href || !href.toLowerCase().endsWith('.pdf')) return;
+  e.preventDefault();
+  try {
+    const res = await fetch(href, { credentials: 'same-origin' });
+    if (!res.ok) throw new Error('fetch failed');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const tmp = document.createElement('a');
+    tmp.href = url;
+    tmp.download = filename;
+    document.body.appendChild(tmp);
+    tmp.click();
+    document.body.removeChild(tmp);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (_) {
+    window.location.href = href;
+  }
+}
+document.querySelectorAll('a[download][href$=".pdf"]').forEach(a => {
+  a.addEventListener('click', forceDownload);
+});
+
 // ── Lightbox ──────────────────────────────────────────────
 const lightbox     = document.getElementById('lightbox');
 const lightboxImg  = document.getElementById('lightbox-img');
