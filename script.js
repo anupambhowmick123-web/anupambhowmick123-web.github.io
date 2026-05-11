@@ -67,7 +67,8 @@ if (resumeModal) {
   });
 }
 
-// Force a real download on mobile (iOS Safari ignores the `download` attr on <a>).
+// Force a real download (iOS Safari ignores `download` for files it can render inline).
+// Trick: re-wrap the PDF as application/octet-stream so Safari treats it as a download.
 async function forceDownload(e) {
   const a = e.currentTarget;
   const href = a.getAttribute('href');
@@ -77,11 +78,13 @@ async function forceDownload(e) {
   try {
     const res = await fetch(href, { credentials: 'same-origin' });
     if (!res.ok) throw new Error('fetch failed');
-    const blob = await res.blob();
+    const raw = await res.blob();
+    const blob = new Blob([raw], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const tmp = document.createElement('a');
     tmp.href = url;
     tmp.download = filename;
+    tmp.rel = 'noopener';
     document.body.appendChild(tmp);
     tmp.click();
     document.body.removeChild(tmp);
@@ -93,6 +96,22 @@ async function forceDownload(e) {
 document.querySelectorAll('a[download][href$=".pdf"]').forEach(a => {
   a.addEventListener('click', forceDownload);
 });
+
+// On mobile, swap the native PDF iframe for Google Docs Viewer so the full
+// multi-page document renders (iOS Safari only shows the first page in an iframe).
+// Skipped on localhost since Google can't fetch the file from your machine.
+(function upgradeMobileResumePreview() {
+  const iframe = document.querySelector('.resume-modal iframe');
+  if (!iframe) return;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const host = window.location.hostname;
+  const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '';
+  if (!isMobile || isLocal) return;
+  const src = iframe.getAttribute('src');
+  if (!src || src.includes('docs.google.com')) return;
+  const absUrl = new URL(src, window.location.href).href;
+  iframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(absUrl)}&embedded=true`;
+})();
 
 // ── Lightbox ──────────────────────────────────────────────
 const lightbox     = document.getElementById('lightbox');
