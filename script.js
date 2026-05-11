@@ -48,7 +48,20 @@ const resumeModal  = document.getElementById('resume-modal');
 const resumeTrigger = document.getElementById('resume-trigger');
 const resumeClose  = document.getElementById('resume-modal-close');
 
+const RESUME_PDF = 'anupambhowmick_resume_2026.pdf';
+
+function isMobileViewport() {
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
 function openResume() {
+  // Mobile browsers don't render PDFs inside iframes (iOS Safari shows only
+  // page 1, Android Chrome shows a download stub). Skip the modal and open the
+  // PDF directly — the OS PDF viewer handles scroll, zoom, share, and save.
+  if (isMobileViewport()) {
+    window.open(RESUME_PDF, '_blank', 'noopener');
+    return;
+  }
   if (!resumeModal) return;
   resumeModal.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -96,22 +109,6 @@ async function forceDownload(e) {
 document.querySelectorAll('a[download][href$=".pdf"]').forEach(a => {
   a.addEventListener('click', forceDownload);
 });
-
-// On mobile, swap the native PDF iframe for Google Docs Viewer so the full
-// multi-page document renders (iOS Safari only shows the first page in an iframe).
-// Skipped on localhost since Google can't fetch the file from your machine.
-(function upgradeMobileResumePreview() {
-  const iframe = document.querySelector('.resume-modal iframe');
-  if (!iframe) return;
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  const host = window.location.hostname;
-  const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '';
-  if (!isMobile || isLocal) return;
-  const src = iframe.getAttribute('src');
-  if (!src || src.includes('docs.google.com')) return;
-  const absUrl = new URL(src, window.location.href).href;
-  iframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(absUrl)}&embedded=true`;
-})();
 
 // ── Lightbox ──────────────────────────────────────────────
 const lightbox     = document.getElementById('lightbox');
