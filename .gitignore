@@ -10,3 +10,8 @@
 # Editor folders
 .vscode/
 .idea/
+
+# Stray binaries — large installers should not live in /images
+images/*.dmg
+images/*.zip
+*.dmg
