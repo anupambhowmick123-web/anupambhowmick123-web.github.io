@@ -48,7 +48,7 @@ const resumeModal  = document.getElementById('resume-modal');
 const resumeTrigger = document.getElementById('resume-trigger');
 const resumeClose  = document.getElementById('resume-modal-close');
 
-const RESUME_PDF = 'anupambhowmick_resume_2026.pdf';
+const RESUME_PDF = '/resume/Anupam_Bhowmick_Senior_Product_Designer.pdf';
 
 function isMobileViewport() {
   return window.matchMedia('(max-width: 768px)').matches;
