@@ -24,7 +24,7 @@ document.querySelectorAll('.email-copy').forEach(link => {
       const tooltip = wrapper ? wrapper.querySelector('.email-tooltip') : null;
       if (!tooltip) return;
       const original = tooltip.textContent;
-      tooltip.textContent = 'Copied!';
+      tooltip.textContent = 'Email copied!';
       tooltip.style.opacity = '1';
       setTimeout(() => {
         tooltip.textContent = original;

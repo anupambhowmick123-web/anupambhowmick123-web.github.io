@@ -459,10 +459,8 @@ body.ai-system .page { padding-top: var(--space-128); }
 .ds-link:hover { opacity: 0.55; }
 
 .ds-link-muted {
-  font: var(--type-nav);
+  font: var(--type-caption);
   color: var(--light-2);
-  text-decoration: underline;
-  text-underline-offset: 2px;
   transition: color 0.15s ease;
   cursor: pointer;
   white-space: nowrap;
