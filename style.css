@@ -594,9 +594,9 @@ body.ai-system .page { padding-top: var(--space-128); }
   min-height: calc(100vh - var(--nav-height));
 }
 
-/* Identity block: name, role, company — 4px gap (matches Figma) */
+/* Identity block: name, role, company — 8px gap */
 .bio-identity {
-  display: flex; flex-direction: column; gap: var(--space-4);
+  display: flex; flex-direction: column; gap: var(--space-8);
 }
 
 /* Location line — mapped to body text token. No longer a link (was an
