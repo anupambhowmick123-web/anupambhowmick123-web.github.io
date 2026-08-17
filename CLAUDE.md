@@ -9,7 +9,7 @@ READ THIS ENTIRE FILE BEFORE TOUCHING ANY CODE.
 
 Static portfolio site. No frameworks, no build system, no npm.
 Stack: HTML5 + CSS3 + Vanilla JS only.
-Font: Sora (Google Fonts — 400, 600 weights only).
+Font: Sora (Google Fonts — 400, 500, 600 weights only). See DESIGN-SYSTEM.md for the full type-token scale.
 Dev server: `python3 serve.py` → localhost:4200
 Figma file key: `8GEqwkx0ENInCieGuJe1gp`
 

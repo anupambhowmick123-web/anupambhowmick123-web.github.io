@@ -3,27 +3,33 @@
    Source: Figma 8GEqwkx0ENInCieGuJe1gp
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&display=swap');
 
 /* ── Design Tokens — Dark mode (default) ────────────────── */
+/* Vercel-matched neutral palette, second pass — refined against direct
+   reference screenshots (byline/meta text, borders, backgrounds). */
 :root {
-  --dark-1:           #252525;
-  --dark-2:       #313131;
-  --dark-4:       #4a4a4a;
-  --dark-3:      #282828;
-  --workflow-bg: #2b2b2a;
-  --media-bg:     #323232;
-  --light-1:      #FDFCFA;
-  --light-2:      #B7B2AA;
-  --light-3:      #6A665F;
-  --surface-tint:      rgba(183,178,170,0.04);
+  --dark-1:           #191919;
+  --dark-2:       #0D0D0D;
+  --dark-4:       #333333;
+  --dark-3:      #141414;
+  --workflow-bg: #0D0D0D;
+  --media-bg:     #101010;
+  --light-1:      #F2F2F2;
+  --light-2:      #A0A0A0;
+  --light-3:      #8A8A8A;
+  --surface-tint:      rgba(255,255,255,0.04);
   --nav-height:         48px;
   --font: 'Sora', sans-serif;
 
   /* ── Type scale — role-named tokens, applied as `font: var(--type-x);` ──
      Color stays separate per class. Responsive steps redefine these same
-     custom properties inside the ≤720px / ≤480px blocks in RESPONSIVE. */
-  --type-display:  600 32px/1.5  var(--font); /* hero-level titles */
+     custom properties inside the ≤720px / ≤480px blocks in RESPONSIVE.
+     Heading tokens (display/h1/h2/h3) are weight 600;
+     subtitle/body/caption/nav/code are unchanged at their original weight.
+     --type-display is shared by the homepage name and case-study hero
+     titles (previously split into two tokens, merged back on request). */
+  --type-display:  600 40px/1.1  var(--font); /* hero-level titles: .ds-h1 + .project-hero-title */
   --type-h1:       600 24px/1.33 var(--font); /* section headings */
   --type-h2:       600 20px/1.4  var(--font); /* subsection headings */
   --type-subtitle: 400 14px/1.5  var(--font); /* quiet secondary/intro text */
@@ -67,21 +73,22 @@
 }
 
 /* ── Light mode overrides ────────────────────────────────── */
+/* Vercel-matched neutral palette, second pass — see :root note above. */
 html.light {
-  --dark-1:           #F1EDEA;
-  --dark-2:       #E0DBD6;
-  --dark-4:       #D0CAC4;
-  --dark-3:      #EBE6E0;
-  --workflow-bg: #EBE6E0;
-  --media-bg:     #C8C3BC;
-  --light-1:      #1A1A1A;
-  --light-2:      #635D54;
-  --light-3:      #948F87;
-  --surface-tint:      rgba(37,37,37,0.04);
+  --dark-1:           #F2F1EE;
+  --dark-2:       #F7F7F7;
+  --dark-4:       #D9D9D9;
+  --dark-3:      #F0F0F0;
+  --workflow-bg: #F5F5F5;
+  --media-bg:     #F2F2F2;
+  --light-1:      #0A0A0A;
+  --light-2:      #525252;
+  --light-3:      #5A5A5A;
+  --surface-tint:      rgba(0,0,0,0.04);
 }
 
-html.light .btn-primary       { background: #252525; color: #F1EDEA; border-color: #252525; }
-html.light .btn-primary:hover { background: #313131; border-color: #313131; }
+html.light .btn-primary       { background: #000000; color: #F2F2F2; border-color: #000000; }
+html.light .btn-primary:hover { background: #0D0D0D; border-color: #0D0D0D; }
 
 /* ── Reset ───────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -350,8 +357,10 @@ html.light .theme-toggle .icon-moon { display: block; }
   z-index: 1;
 }
 
-/* Homepage — 100px top padding (148px Figma minus 48px sticky nav) */
-body.home .page { padding-top: var(--space-100); }
+/* Homepage — no extra top padding; the hero wrapper (.bio-identity-group)
+   now centers its own content within the viewport below the sticky nav,
+   so a fixed offset here would push the hero past a full 100vh. */
+body.home .page { padding-top: 0; }
 
 /* Payments — 128px top padding, 92px between sections, 124px to footer */
 body.payments .page { padding-top: var(--space-128); }
@@ -375,6 +384,11 @@ body.onboarding .cs-body ul + p,
 body.onboarding .cs-body ol + p { margin-top: var(--space-20); }
 body.onboarding .cs-body ul,
 body.onboarding .cs-body ol { gap: var(--space-8); }
+
+/* AI System — was missing a body class entirely, so it fell through to the
+   generic 80px .page padding-top instead of matching Payments/Onboarding's
+   128px starting spacing above the hero title. Fixed to match. */
+body.ai-system .page { padding-top: var(--space-128); }
 
 .content {
   width: 680px;
@@ -571,10 +585,15 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
   display: flex; flex-direction: column; gap: var(--space-132);
 }
 
-/* Hero block: identity + statement+bio — large gap creates open top.
+/* Hero block: identity + statement+bio — large gap creates open top,
+   vertically centered to fill the viewport below the sticky nav — Projects
+   begins right after the first scroll. Disabled below 900px, see RESPONSIVE
+   (100vh + this gap reads as awkward empty space once content reflows onto
+   more lines on narrower screens; auto-height reads better there).
    Original 282px snapped to nearest 4px step: 280px (−2px). */
 .bio-identity-group {
-  display: flex; flex-direction: column; gap: var(--space-280);
+  display: flex; flex-direction: column; justify-content: center; gap: var(--space-280);
+  min-height: calc(100vh - var(--nav-height));
 }
 
 /* Identity block: name, role, company — 4px gap (matches Figma) */
@@ -582,23 +601,18 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
   display: flex; flex-direction: column; gap: var(--space-4);
 }
 
-/* Company line — mapped to H3 */
+/* Location line — mapped to body text token. No longer a link (was an
+   external link to Xoxoday; now a static "Based in [city]" line), so no
+   hover/interactive styling. */
 .bio-company {
   display: inline-flex;
   align-items: center;
   gap: var(--space-4);
-  font: var(--type-h3);
+  font: var(--type-body);
   color: var(--light-2);
-  text-decoration: none;
   width: fit-content;
-  transition: color 0.15s ease;
 }
-.bio-company:hover { color: var(--light-1); }
-.bio-company-arrow {
-  flex-shrink: 0;
-  transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-.bio-company:hover .bio-company-arrow { transform: translateX(2px); }
+.bio-company-icon { flex-shrink: 0; }
 
 /* Statement + 9-years bio — gap 16px (matches Figma) */
 .bio-statement-block {
@@ -607,7 +621,7 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
 
 /* Statement — mapped to Body */
 .bio-statement {
-  font: var(--type-h2);
+  font: var(--type-h1);
   color: var(--light-1);
 }
 
@@ -620,6 +634,7 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
 
 /* Inline highlight — light-1 colour, no weight change (matches Figma "9 years") */
 .text-highlight {
+  font: var(--type-h3);
   color: var(--light-1);
 }
 
@@ -675,30 +690,41 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
   gap: var(--space-4);
 }
 
-/* Project cards — split layout: thumbnail (left) + content (right).
-   No card chrome — content aligns with the page column. Thumbnail keeps its
-   own panel bg (#313131); content sits directly on the page bg.
-   Original 50px gap snapped to nearest 4px step: 48px (−2px). */
+/* Project cards — rebuilt to match the new card design (see
+   `new project cards/` at repo root). Corrected per explicit spec: the card
+   background is TRANSPARENT (sits on the page bg, theme-reactive), not a
+   fixed white surface — so every color below uses the existing --light-*
+   theme tokens like everywhere else on the site, not fixed hex. Card
+   corner-radius is 12px; tag corner-radius is 8px (matches the original
+   pre-redesign value). row-reverse puts content left / thumbnail right on
+   desktop without reordering the HTML; the ≤720px stacked breakpoint sets
+   flex-direction: column, which reverts to DOM order (thumb, then content)
+   automatically, putting the thumbnail on top on mobile — matching the
+   mobile mockups — with no extra rule needed. overflow:hidden + the card's
+   own border-radius clips the flush-edge thumbnail image to match the
+   outer corners; no separate radius needed on the thumbnail itself. */
 .project-card {
   display: flex;
+  flex-direction: row-reverse;
   align-items: stretch;
-  gap: var(--space-48);
+  background: transparent;
+  border: 1px solid var(--dark-4);
+  border-radius: 12px;
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
 }
 .project-card:focus-visible {
   outline: 2px solid var(--light-1);
   outline-offset: 4px;
-  border-radius: 6px;
+  border-radius: 12px;
 }
 
 .project-card-thumb {
-  flex-shrink: 0;
-  width: 249px;
+  flex: 1;
+  min-width: 0;
   align-self: stretch;
-  border-radius: 6px;
-  overflow: hidden;
-  background: var(--dark-2);
+  background: transparent;
   position: relative;
 }
 .project-card-thumb img {
@@ -720,10 +746,11 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
 .project-card-content {
   flex: 1;
   min-width: 0;
-  margin: var(--space-4) 0;
+  padding: var(--space-32);
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  justify-content: center;
+  gap: var(--space-12);
 }
 
 .project-card-title {
@@ -731,10 +758,17 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
   color: var(--light-1);
 }
 
+.project-card-byline {
+  font: var(--type-caption);
+  color: var(--light-2);
+}
+.project-card-byline strong { color: var(--light-1); font-weight: 600; }
+
 .project-card-body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-28);
+  gap: var(--space-16);
+  margin-top: var(--space-8);
   font: var(--type-body);
   color: var(--light-2);
 }
@@ -743,15 +777,16 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
 .project-card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-16);
-  margin-top: var(--space-12);
+  gap: var(--space-12);
+  margin-top: var(--space-4);
 }
 .project-card-tag {
-  background: var(--dark-2);
+  background: transparent;
+  border: 1px solid var(--dark-4);
   color: var(--light-2);
   font: var(--type-caption);
   font-weight: 500;
-  padding: var(--space-8) var(--space-8);
+  padding: var(--space-8) var(--space-16);
   border-radius: 8px;
   white-space: nowrap;
 }
@@ -1223,9 +1258,9 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   border-radius: 0;
 }
 
-/* Before / After workflow box */
+/* Before / After workflow box — fixed background, not theme-reactive (explicit request) */
 .cs-workflow-box {
-  background: var(--dark-2);
+  background: #313131;
   border-radius: 4px;
   padding: var(--space-28) var(--space-44);
   display: flex; flex-direction: column; gap: var(--space-16);
@@ -1308,9 +1343,14 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 
 @media (max-width: 900px) {
   .page                 { padding-top: var(--space-60); padding-bottom: var(--space-100); }
+  /* Homepage — the 100vh hero-centering trick is disabled below this
+     breakpoint (see .bio-identity-group below), so restore top padding
+     above the name, matching the same unconditional 128px the case-study
+     pages use above their heading (body.payments/.onboarding/.ai-system). */
+  body.home .page       { padding-top: var(--space-128); }
   .content              { gap: var(--space-120); }
   .bio-main             { gap: var(--space-80); }
-  .bio-identity-group   { gap: var(--space-160); }
+  .bio-identity-group   { min-height: auto; justify-content: flex-start; gap: var(--space-160); }
   .work-section         { gap: var(--space-32); }
   .work-main            { gap: var(--space-48); }
   .project-list         { gap: var(--space-72); }
@@ -1324,14 +1364,17 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 /* Project card stacks vertically on narrow viewports — thumbnail on top */
 @media (max-width: 720px) {
   :root {
-    /* Type scale — ≤720px step (see :root definitions at top of file) */
-    --type-display: 600 28px/1.4 var(--font);
+    /* Type scale — ≤720px step (see :root definitions at top of file).
+       Weight 600 on heading tokens, matching their new base weight.
+       --type-display recalculated proportionally from its new 40px base
+       using the same step-down ratio as before (see DESIGN-SYSTEM.md). */
+    --type-display: 600 35px/1.03 var(--font);
     --type-h1:      600 22px/1.3 var(--font);
     --type-h2:      600 18px/1.4 var(--font);
     --type-h3:      600 16px/1.6 var(--font);
   }
-  .project-card        { flex-direction: column; align-items: stretch; gap: var(--space-24); }
-  .project-card-thumb  { width: 100%; height: 300px; aspect-ratio: auto; }
+  .project-card        { flex-direction: column; align-items: stretch; }
+  .project-card-thumb  { width: 100%; aspect-ratio: 854 / 636; flex: none; }
   .project-card-body   { gap: var(--space-20); }
   .project-card-tags   { gap: var(--space-12); }
 }
@@ -1346,9 +1389,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   .bio-identity-group   { gap: var(--space-96); }
   .bio-section          { gap: var(--space-24); }
   .work-section         { gap: var(--space-24); }
-  .project-card     { gap: var(--space-20); }
-  .project-card-thumb { height: 300px; }
-  .project-card-content { gap: var(--space-16); }
+  .project-card-content { gap: var(--space-16); padding: var(--space-24); }
   .project-img-placeholder { height: 200px; }
   .project-main     { gap: var(--space-40); }
   .ds-link-row      { gap: var(--space-16); }
@@ -1361,8 +1402,11 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 
 @media (max-width: 480px) {
   :root {
-    /* Type scale — ≤480px step (see :root definitions at top of file) */
-    --type-display: 600 26px/1.35 var(--font);
+    /* Type scale — ≤480px step (see :root definitions at top of file).
+       Weight 600 on heading tokens, matching their new base weight.
+       --type-display recalculated proportionally from its new 40px base
+       using the same step-down ratio as before (see DESIGN-SYSTEM.md). */
+    --type-display: 600 32px/1.0 var(--font);
     --type-h1:      600 20px/1.3  var(--font);
     --type-body:    400 15px/1.6  var(--font);
   }

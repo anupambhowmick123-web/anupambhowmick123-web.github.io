@@ -80,12 +80,13 @@
           <div class="bio-identity">
             <p class="ds-h1">Anupam Bhowmick</p>
             <p class="ds-h3-muted">Senior Product Designer</p>
-            <a href="https://www.xoxoday.com" target="_blank" rel="noopener" class="bio-company">
-              <span>Xoxoday, Bengaluru</span>
-              <svg class="bio-company-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3.33 8h9.33M8 3.33L12.67 8 8 12.67" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <p class="bio-company">
+              <svg class="bio-company-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 14.5s5-4.36 5-8.25a5 5 0 1 0-10 0c0 3.89 5 8.25 5 8.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="8" cy="6.25" r="1.5" stroke="currentColor" stroke-width="1.5"/>
               </svg>
-            </a>
+              <span>Based in Bengaluru, India</span>
+            </p>
           </div>
 
           <!-- Statement + bio -->
@@ -105,13 +106,16 @@
 
           <a href="/ai-system/" class="project-card">
             <div class="project-card-thumb">
-              <img src="images/AI-Driven Product Development System - Thumbnail.png" alt="" loading="lazy" />
+              <picture>
+                <source media="(max-width: 720px)" srcset="images/ai-card-mobile.png" />
+                <img src="images/ai-card-web.png" alt="" loading="lazy" />
+              </picture>
             </div>
             <div class="project-card-content">
               <p class="project-card-title">AI-Driven Product Development System</p>
+              <p class="project-card-byline">for <strong>Xoxoday</strong></p>
               <div class="project-card-body">
-                <p>Fragmented design systems slowed development and made AI outputs unreliable.</p>
-                <p>Built a unified design + engineering foundation, enabling AI-driven workflows to improve speed and consistency.</p>
+                <p>Reduced duplicate frontend effort by ~30&ndash;40%, by unifying fragmented design and engineering systems into one AI-ready foundation.</p>
               </div>
               <div class="project-card-tags">
                 <span class="project-card-tag">AI Workflow</span>
@@ -122,16 +126,19 @@
 
           <a href="/payments/" class="project-card">
             <div class="project-card-thumb">
-              <img src="images/Payments - Thumbnail.png" alt="" loading="lazy" />
+              <picture>
+                <source media="(max-width: 720px)" srcset="images/payments-card-mobile.png" />
+                <img src="images/payments-card-web.png" alt="" loading="lazy" />
+              </picture>
             </div>
             <div class="project-card-content">
               <p class="project-card-title">Enterprise Payments Management System</p>
+              <p class="project-card-byline">for <strong>Xoxoday Plum</strong></p>
               <div class="project-card-body">
-                <p>Scattered payment workflows forced finance teams into manual reconciliation and support dependency.</p>
-                <p>Restructured into a unified payments system, reducing support tickets by ~25–35% and reconciliation effort by ~30%.</p>
+                <p>Reduced payment support tickets by ~25&ndash;35% and reconciliation effort by ~30%, by restructuring scattered workflows into one unified payments system.</p>
               </div>
               <div class="project-card-tags">
-                <span class="project-card-tag">Finance Workflows</span>
+                <span class="project-card-tag">Finance Workflow</span>
                 <span class="project-card-tag">Admin Platform</span>
               </div>
             </div>
@@ -139,13 +146,16 @@
 
           <a href="/onboarding/" class="project-card">
             <div class="project-card-thumb">
-              <img src="images/Onboarding - Thumbnail.png" alt="" loading="lazy" />
+              <picture>
+                <source media="(max-width: 720px)" srcset="images/onboarding-card-mobile.png" />
+                <img src="images/onboarding-card-web.png" alt="" loading="lazy" />
+              </picture>
             </div>
             <div class="project-card-content">
-              <p class="project-card-title">Onboarding Re-Architecture</p>
+              <p class="project-card-title">Admin Onboarding</p>
+              <p class="project-card-byline">for <strong>Xoxoday Plum</strong></p>
               <div class="project-card-body">
-                <p>Complex onboarding flows led to early drop-offs and low activation.</p>
-                <p>Simplified signup and guided users to first reward, reducing drop-offs by ~70% and increasing conversion by ~12%.</p>
+                <p>Reduced drop-offs by ~70% and increased conversion by ~12%, by simplifying signup and guiding users straight to their first reward.</p>
               </div>
               <div class="project-card-tags">
                 <span class="project-card-tag">User Onboarding</span>
@@ -155,34 +165,21 @@
           </a>
         </div>
 
-        <!-- ── Principles ── -->
-        <div class="bio-section">
-          <p class="ds-h2">Principles</p>
-          <ul class="ds-body principles-list">
-            <li>Start with the problem, not the solution</li>
-            <li>Clarity over polish</li>
-            <li>Design for systems, not just screens</li>
-            <li>Build quality into the process</li>
-            <li>Good design works across constraints</li>
-            <li>Work as a team</li>
-          </ul>
-        </div>
-
         <!-- ── Experience ── -->
         <div class="bio-section">
           <p class="ds-h2">Experience</p>
           <div class="exp-entries">
             <div class="exp-entry">
-              <span class="exp-date">Jan 2019 – Present (~7 years)</span>
-              <span class="exp-title">Senior Product Designer — Xoxoday</span>
+              <span class="exp-date">Jan 2019 – Present</span>
+              <span class="exp-title">Senior Product Designer - Xoxoday</span>
             </div>
             <div class="exp-entry">
-              <span class="exp-date">Jun 2017 – Dec 2018 (1 yr 7 mos)</span>
-              <span class="exp-title">UX/UI Designer — Gapoon</span>
+              <span class="exp-date">Jun 2017 – Dec 2018</span>
+              <span class="exp-title">UX/UI Designer - Gapoon</span>
             </div>
             <div class="exp-entry">
-              <span class="exp-date">Mar 2017 – Jun 2017 (3 mos)</span>
-              <span class="exp-title">UX/UI Designer — Algebra Analytics</span>
+              <span class="exp-date">Mar 2017 – Jun 2017</span>
+              <span class="exp-title">UX/UI Designer - Algebra Analytics</span>
             </div>
           </div>
         </div>
@@ -201,7 +198,7 @@
 
       <!-- Footer -->
       <div class="ds-footer-row">
-        <p class="ds-caption">© 2026 Anupam Bhowmick · Built with Claude</p>
+        <p class="ds-caption">© 2026 Anupam Bhowmick · Built by Claude Code</p>
         <nav class="ds-link-row">
           <div class="email-tooltip-wrapper">
             <a href="#" class="ds-link-muted email-copy">Email</a>

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Onboarding Re-Architecture — Anupam Bhowmick</title>
-  <meta name="description" content="Case study: Onboarding Re-Architecture designed by Anupam Bhowmick." />
+  <title>Admin Onboarding — Anupam Bhowmick</title>
+  <meta name="description" content="Case study: Admin Onboarding designed by Anupam Bhowmick." />
   <link rel="stylesheet" href="/style.css" />
   <script>if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light')}</script>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Onboarding Re-Architecture — Anupam Bhowmick" />
+  <meta property="og:title" content="Admin Onboarding — Anupam Bhowmick" />
   <meta property="og:description" content="Case study: restructured account creation and onboarding. Reduced early drop-offs by ~70%, increased paying-customer conversion by ~12%." />
   <meta property="og:url" content="https://anupambhowmick.in/onboarding/" />
   <meta property="og:site_name" content="Anupam Bhowmick" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Onboarding Re-Architecture — Anupam Bhowmick" />
+  <meta name="twitter:title" content="Admin Onboarding — Anupam Bhowmick" />
   <meta name="twitter:description" content="Case study: restructured account creation and onboarding. Reduced early drop-offs by ~70%, increased paying-customer conversion by ~12%." />
 </head>
 <body class="onboarding">
@@ -71,7 +71,7 @@
         <!-- ── Hero ── -->
         <div class="project-hero">
           <div class="project-hero-text">
-            <h1 class="project-hero-title">Onboarding Re-Architecture</h1>
+            <h1 class="project-hero-title">Admin Onboarding</h1>
             <p class="project-hero-desc">We restructured account creation and onboarding by simplifying signup and guiding users to their first reward, reducing early drop-offs by ~70% and increasing conversion to paying customers by ~12%.</p>
           </div>
           <div class="cs-img-wrap">
@@ -301,13 +301,16 @@
           <h2 class="ds-h2">More Projects</h2>
           <a href="/ai-system/" class="project-card">
             <div class="project-card-thumb">
-              <img src="/images/AI-Driven Product Development System - Thumbnail.png" alt="" loading="lazy" />
+              <picture>
+                <source media="(max-width: 720px)" srcset="/images/ai-card-mobile.png" />
+                <img src="/images/ai-card-web.png" alt="" loading="lazy" />
+              </picture>
             </div>
             <div class="project-card-content">
               <p class="project-card-title">AI-Driven Product Development System</p>
+              <p class="project-card-byline">for <strong>Xoxoday</strong></p>
               <div class="project-card-body">
-                <p>Fragmented design systems slowed development and made AI outputs unreliable.</p>
-                <p>Built a unified design + engineering foundation, enabling AI-driven workflows to improve speed and consistency.</p>
+                <p>Reduced duplicate frontend effort by ~30&ndash;40%, by unifying fragmented design and engineering systems into one AI-ready foundation.</p>
               </div>
               <div class="project-card-tags">
                 <span class="project-card-tag">AI Workflow</span>
@@ -317,16 +320,19 @@
           </a>
           <a href="/payments/" class="project-card">
             <div class="project-card-thumb">
-              <img src="/images/Payments - Thumbnail.png" alt="" loading="lazy" />
+              <picture>
+                <source media="(max-width: 720px)" srcset="/images/payments-card-mobile.png" />
+                <img src="/images/payments-card-web.png" alt="" loading="lazy" />
+              </picture>
             </div>
             <div class="project-card-content">
               <p class="project-card-title">Enterprise Payments Management System</p>
+              <p class="project-card-byline">for <strong>Xoxoday Plum</strong></p>
               <div class="project-card-body">
-                <p>Scattered payment workflows forced finance teams into manual reconciliation and support dependency.</p>
-                <p>Restructured into a unified payments system, reducing support tickets by ~25–35% and reconciliation effort by ~30%.</p>
+                <p>Reduced payment support tickets by ~25&ndash;35% and reconciliation effort by ~30%, by restructuring scattered workflows into one unified payments system.</p>
               </div>
               <div class="project-card-tags">
-                <span class="project-card-tag">Finance Workflows</span>
+                <span class="project-card-tag">Finance Workflow</span>
                 <span class="project-card-tag">Admin Platform</span>
               </div>
             </div>
@@ -337,7 +343,7 @@
 
       <!-- Footer -->
       <div class="ds-footer-row">
-        <p class="ds-caption">© 2026 Anupam Bhowmick · Built with Claude</p>
+        <p class="ds-caption">© 2026 Anupam Bhowmick · Built by Claude Code</p>
         <nav class="ds-link-row">
           <div class="email-tooltip-wrapper">
             <a href="#" class="ds-link-muted email-copy">Email</a>
