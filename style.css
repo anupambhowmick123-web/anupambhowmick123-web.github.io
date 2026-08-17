@@ -760,7 +760,7 @@ body.ai-system .page { padding-top: var(--space-128); }
   font: var(--type-caption);
   color: var(--light-2);
 }
-.project-card-byline strong { color: var(--light-1); font-weight: 600; }
+.project-card-byline strong { color: var(--light-1); font-weight: 400; }
 
 .project-card-body {
   display: flex;
