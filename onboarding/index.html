@@ -85,8 +85,8 @@
         <div class="project-section">
           <h2 class="project-section-heading">Context</h2>
           <div class="cs-body">
-            <p>Plum allowed new businesses to create reward programs for employees and customers through a <span class="cs-link">multi-step admin onboarding flow</span>. To start sending rewards, admins needed to create an account, configure store settings, verify business details, complete payment setup and understand campaign workflows.</p>
-            <p>As enterprise onboarding requirements expanded, the <span class="cs-link">setup process became increasingly operational and compliance-heavy</span> before users could experience the product itself.</p>
+            <p>Plum allowed new businesses to create reward programs for employees and customers through a <span class="text-highlight">multi-step admin onboarding flow</span>. To start sending rewards, admins needed to create an account, configure store settings, verify business details, complete payment setup and understand campaign workflows.</p>
+            <p>As enterprise onboarding requirements expanded, the <span class="text-highlight">setup process became increasingly operational and compliance-heavy</span> before users could experience the product itself.</p>
           </div>
         </div>
 
@@ -102,7 +102,7 @@
         <div class="project-section">
           <h2 class="project-section-heading">Existing Model</h2>
           <div class="cs-body">
-            <p>The onboarding flow evolved incrementally as new business, compliance, and operational requirements were added over time. Instead of being designed around activation, the <span class="cs-link">journey became centered around account setup and operational readiness from the very beginning.</span></p>
+            <p>The onboarding flow evolved incrementally as new business, compliance, and operational requirements were added over time. Instead of being designed around activation, the <span class="text-highlight">journey became centered around account setup and operational readiness from the very beginning.</span></p>
             <p>This made onboarding feel like a configuration process rather than a guided product introduction.</p>
           </div>
         </div>
@@ -111,7 +111,7 @@
         <div class="project-section">
           <h2 class="project-section-heading">Problem</h2>
           <div class="cs-body">
-            <p>New users were being pushed into operational setup before experiencing any product value. <span class="cs-link">Critical actions</span> like business verification, payment setup, store configuration, onboarding decisions were either <span class="cs-link">blocked or introduced too early in the journey</span>.</p>
+            <p>New users were being pushed into operational setup before experiencing any product value. <span class="text-highlight">Critical actions</span> like business verification, payment setup, store configuration, onboarding decisions were either <span class="text-highlight">blocked or introduced too early in the journey</span>.</p>
             <p>This created major friction during activation:</p>
             <ul>
               <li>users dropped before completing setup</li>
@@ -152,7 +152,7 @@
               <li>reducing onboarding steps</li>
               <li>restructuring onboarding sequences</li>
             </ul>
-            <p>But the <span class="cs-link">core issue</span> was not the number of steps. It <span class="cs-link">was introducing commitment before value</span>. We shifted the onboarding model toward:</p>
+            <p>But the <span class="text-highlight">core issue</span> was not the number of steps. It <span class="text-highlight">was introducing commitment before value</span>. We shifted the onboarding model toward:</p>
             <ul>
               <li>faster product access</li>
               <li>progressive setup</li>
@@ -171,7 +171,7 @@
             <div class="cs-subsection">
               <h2 class="project-section-heading">Solution</h2>
               <div class="cs-body">
-                <p>We restructured onboarding around a single goal, <span class="cs-link">help users send their first reward as quickly as possible.</span> Users can proceed with intent, while the system handles dependencies like verification and payment in parallel.</p>
+                <p>We restructured onboarding around a single goal, <span class="text-highlight">help users send their first reward as quickly as possible.</span> Users can proceed with intent, while the system handles dependencies like verification and payment in parallel.</p>
               </div>
               <div class="cs-workflow-box">
                 <p class="cs-workflow-line"><span class="cs-workflow-label">Before:&nbsp;&nbsp;</span><span class="cs-workflow-flow">Business Verification → Payment Setup → Store Configuration → Campaign Decisions → Send First Reward</span></p>
@@ -185,7 +185,7 @@
             <div class="cs-subsection">
               <h2 class="cs-section-heading">Simplified Account Creation</h2>
               <div class="cs-body">
-                <p><span class="cs-link">Reduced onboarding to only essential inputs</span>, removing early decisions like use cases and store configuration. This allowed users to enter the product faster and start exploring immediately, instead of getting blocked upfront.</p>
+                <p><span class="text-highlight">Reduced onboarding to only essential inputs</span>, removing early decisions like use cases and store configuration. This allowed users to enter the product faster and start exploring immediately, instead of getting blocked upfront.</p>
                 <p>Shift:</p>
                 <ul>
                   <li>Before → Heavy, decision-driven signup</li>
@@ -204,7 +204,7 @@
             <div class="cs-subsection">
               <h2 class="cs-section-heading">Guided First Reward Journey</h2>
               <div class="cs-body">
-                <p>Defined sending the <span class="cs-link">first reward as the primary activation milestone</span>. Created a structured flow that guided users step by step, with clear next actions at each stage.</p>
+                <p>Defined sending the <span class="text-highlight">first reward as the primary activation milestone</span>. Created a structured flow that guided users step by step, with clear next actions at each stage.</p>
                 <p>Key behaviours introduced:</p>
                 <ul>
                   <li>Users can configure rewards before completing verification</li>
@@ -231,7 +231,7 @@
             <div class="cs-subsection">
               <h2 class="cs-section-heading">Early Visibility of Verification and Payments</h2>
               <div class="cs-body">
-                <p>Moved business <span class="cs-link">verification and payment setup earlier in the journey</span> with clear visibility. Users understood requirements before reaching blockers.</p>
+                <p>Moved business <span class="text-highlight">verification and payment setup earlier in the journey</span> with clear visibility. Users understood requirements before reaching blockers.</p>
                 <p>This reduced surprises and improved completion rates.</p>
               </div>
               <div class="cs-img-stack">
@@ -249,14 +249,14 @@
             <div class="cs-subsection">
               <h2 class="cs-section-heading">System Behaviour (Core Design Decision)</h2>
               <div class="cs-body">
-                <p>To balance flexibility with business constraints, we introduced a <span class="cs-link">queued reward system</span>:</p>
+                <p>To balance flexibility with business constraints, we introduced a <span class="text-highlight">queued reward system</span>:</p>
                 <ul>
                   <li>Rewards are queued instead of failing</li>
                   <li>Verification runs in parallel after submission</li>
                   <li>Users can choose to add funds now or later</li>
                   <li>Rewards are automatically sent once requirements are met</li>
                 </ul>
-                <p>This allowed users to <span class="cs-link">complete their intent without interruption</span>, while still respecting compliance and payment requirements.</p>
+                <p>This allowed users to <span class="text-highlight">complete their intent without interruption</span>, while still respecting compliance and payment requirements.</p>
               </div>
               <div class="cs-img-wrap">
                 <div class="cs-panel-full">
@@ -273,13 +273,13 @@
         <div class="project-section">
           <h2 class="project-section-heading">Impact</h2>
           <div class="cs-body">
-            <p>The redesigned onboarding flow <span class="cs-link">reduced friction between signup, business verification, and first reward creation</span> by restructuring the journey around progressive activation instead of upfront setup.</p>
+            <p>The redesigned onboarding flow <span class="text-highlight">reduced friction between signup, business verification, and first reward creation</span> by restructuring the journey around progressive activation instead of upfront setup.</p>
             <p>Outcomes included:</p>
             <ul>
-              <li><span class="cs-link">~70%</span> reduction in early-stage onboarding drop-offs</li>
-              <li><span class="cs-link">~12%</span> increase in conversion from signups to paying customers</li>
-              <li><span class="cs-link">~20–30%</span> improvement in onboarding completion and time to first reward</li>
-              <li><span class="cs-link">~25–55%</span> reduction in onboarding-related support tickets</li>
+              <li><span class="text-highlight">~70%</span> reduction in early-stage onboarding drop-offs</li>
+              <li><span class="text-highlight">~12%</span> increase in conversion from signups to paying customers</li>
+              <li><span class="text-highlight">~20–30%</span> improvement in onboarding completion and time to first reward</li>
+              <li><span class="text-highlight">~25–55%</span> reduction in onboarding-related support tickets</li>
             </ul>
             <p>The new flow created a clearer path from account creation to activation, helping enterprise teams explore the platform faster while improving operational efficiency and conversion outcomes.</p>
           </div>
@@ -289,7 +289,7 @@
         <div class="project-section">
           <h2 class="project-section-heading">Summary</h2>
           <div class="cs-body">
-            <p>This project transformed onboarding from a fragmented and confusing journey into a <span class="cs-link">structured, guided system</span>.</p>
+            <p>This project transformed onboarding from a fragmented and confusing journey into a <span class="text-highlight">structured, guided system</span>.</p>
             <p>By simplifying entry, staging commitment, and clearly guiding users toward their first reward, we improved activation and made the platform more conversion-ready at scale.</p>
           </div>
         </div>

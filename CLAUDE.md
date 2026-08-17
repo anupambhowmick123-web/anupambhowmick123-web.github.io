@@ -41,7 +41,7 @@ Figma file key: `8GEqwkx0ENInCieGuJe1gp`
    Never use base64 inline images in HTML.
 
 2. **No hardcoded colors** — always use CSS variables from the token list below.
-   Exception: `#313131` panel backgrounds (same as `--color-dark-2`) — use the variable.
+   Exception: `#313131` panel backgrounds (same as `--dark-2`) — use the variable.
 
 3. **No hardcoded px values for spacing** — derive from the spacing scale below.
 
@@ -61,26 +61,26 @@ Figma file key: `8GEqwkx0ENInCieGuJe1gp`
 
 ```css
 /* Dark mode (default) */
---color-bg:           #252525   /* Page background */
---color-dark-2:       #313131   /* Image panels, cards darker fill */
---color-dark-3:       #4a4a4a   /* Borders, dividers */
---color-card-bg:      #282828   /* Project card background */
---color-before-after: #2b2b2a   /* Before/after workflow box */
---color-video-bg:     #323232   /* Video placeholder */
---color-light-1:      #F1EDEA   /* Primary text (headings, highlights) */
---color-light-2:      #B7B2AA   /* Body text, muted labels */
---color-light-3:      #6A665F   /* Captions, dividers, disabled */
---color-surface:      rgba(183,178,170,0.04)  /* Subtle surface tint */
+--dark-1:           #252525   /* Page background */
+--dark-2:       #313131   /* Image panels, cards darker fill */
+--dark-4:       #4a4a4a   /* Borders, dividers */
+--dark-3:      #282828   /* Project card background */
+--workflow-bg: #2b2b2a   /* Before/after workflow box */
+--media-bg:     #323232   /* Video placeholder */
+--light-1:      #F1EDEA   /* Primary text (headings, highlights) */
+--light-2:      #B7B2AA   /* Body text, muted labels */
+--light-3:      #6A665F   /* Captions, dividers, disabled */
+--surface-tint:      rgba(183,178,170,0.04)  /* Subtle surface tint */
 --nav-height:         48px
 --font:               'Sora', sans-serif
 
 /* Light mode — html.light overrides all of the above */
---color-bg:           #F1EDEA
---color-dark-2:       #E0DBD6
---color-dark-3:       #D0CAC4
---color-card-bg:      #E5E0DB
---color-light-1:      #252525
---color-light-2:      #4A4A4A
+--dark-1:           #F1EDEA
+--dark-2:       #E0DBD6
+--dark-4:       #D0CAC4
+--dark-3:      #E5E0DB
+--light-1:      #252525
+--light-2:      #4A4A4A
 ```
 
 ### Typography Scale
@@ -125,7 +125,7 @@ Figma file key: `8GEqwkx0ENInCieGuJe1gp`
 - Page padding: `80px max(20px, calc((100% - 680px) / 2)) 128px`
 - Nav padding: `10px max(20px, calc((100% - 680px) / 2))`
 - All case study image panels: `width: 100%` of the 680px column
-- Image panel background: `var(--color-dark-2)` (#313131)
+- Image panel background: `var(--dark-2)` (#313131)
 - Image panel border-radius: `4px`
 
 ---
@@ -169,7 +169,7 @@ images/
 
 ## CSS Class Reference — Case Study Pages
 
-### Image Panels (all have `background: var(--color-dark-2); border-radius: 4px`)
+### Image Panels (all have `background: var(--dark-2); border-radius: 4px`)
 
 ```css
 .cs-hero-panel          /* Overlapping cascade — position: relative + overflow: hidden */

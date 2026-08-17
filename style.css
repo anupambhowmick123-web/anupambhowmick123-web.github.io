@@ -3,37 +3,81 @@
    Source: Figma 8GEqwkx0ENInCieGuJe1gp
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&family=Source+Serif+Pro:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap');
 
 /* ── Design Tokens — Dark mode (default) ────────────────── */
 :root {
-  --color-bg:           #252525;
-  --color-dark-2:       #313131;
-  --color-dark-3:       #4a4a4a;
-  --color-card-bg:      #282828;
-  --color-before-after: #2b2b2a;
-  --color-video-bg:     #323232;
-  --color-light-1:      #FDFCFA;
-  --color-light-2:      #B7B2AA;
-  --color-light-3:      #6A665F;
-  --color-surface:      rgba(183,178,170,0.04);
+  --dark-1:           #252525;
+  --dark-2:       #313131;
+  --dark-4:       #4a4a4a;
+  --dark-3:      #282828;
+  --workflow-bg: #2b2b2a;
+  --media-bg:     #323232;
+  --light-1:      #FDFCFA;
+  --light-2:      #B7B2AA;
+  --light-3:      #6A665F;
+  --surface-tint:      rgba(183,178,170,0.04);
   --nav-height:         48px;
   --font: 'Sora', sans-serif;
-  --font-body: 'Source Serif Pro', Georgia, serif;
+
+  /* ── Type scale — role-named tokens, applied as `font: var(--type-x);` ──
+     Color stays separate per class. Responsive steps redefine these same
+     custom properties inside the ≤720px / ≤480px blocks in RESPONSIVE. */
+  --type-display:  600 32px/1.5  var(--font); /* hero-level titles */
+  --type-h1:       600 24px/1.33 var(--font); /* section headings */
+  --type-h2:       600 20px/1.4  var(--font); /* subsection headings */
+  --type-subtitle: 400 14px/1.5  var(--font); /* quiet secondary/intro text */
+  --type-h3:       600 16px/1.75 var(--font); /* card titles, small emphasis headings */
+  --type-body:     400 16px/1.6  var(--font); /* paragraphs, descriptions, list items */
+  --type-caption:  400 12px/1.4  var(--font); /* tags, captions, meta text */
+  --type-nav:      600 14px/1.4  var(--font); /* nav links, buttons, small UI links */
+  --type-code:     600 80px/1    var(--font); /* 404 only — letter-spacing set locally */
+
+  /* ── Spacing scale — strict 4px multiples, named by value ──────────
+     Applies to gap/padding/margin only. Not theme-dependent (same in
+     light mode). Outliers were snapped to the nearest step (ties broken
+     by rounding up): 5→4, 6→8, 10→12, 14→16, 22→24, 30→32, 33→32,
+     50→48, 282→280. `0` is left as a literal, not tokenized. */
+  --space-4:   4px;
+  --space-8:   8px;
+  --space-12:  12px;
+  --space-16:  16px;
+  --space-20:  20px;
+  --space-24:  24px;
+  --space-28:  28px;
+  --space-32:  32px;
+  --space-40:  40px;
+  --space-44:  44px;
+  --space-48:  48px;
+  --space-52:  52px;
+  --space-60:  60px;
+  --space-72:  72px;
+  --space-80:  80px;
+  --space-92:  92px;  /* page-variant only — body.payments/body.onboarding .project-main gap, not part of the base or breakpoint scale */
+  --space-96:  96px;
+  --space-100: 100px;
+  --space-112: 112px;
+  --space-120: 120px;
+  --space-124: 124px; /* page-variant only — body.payments/body.onboarding .content gap, not part of the base or breakpoint scale */
+  --space-128: 128px;
+  --space-132: 132px;
+  --space-160: 160px;
+  --space-200: 200px;
+  --space-280: 280px;
 }
 
 /* ── Light mode overrides ────────────────────────────────── */
 html.light {
-  --color-bg:           #F1EDEA;
-  --color-dark-2:       #E0DBD6;
-  --color-dark-3:       #D0CAC4;
-  --color-card-bg:      #EBE6E0;
-  --color-before-after: #EBE6E0;
-  --color-video-bg:     #C8C3BC;
-  --color-light-1:      #1A1A1A;
-  --color-light-2:      #635D54;
-  --color-light-3:      #948F87;
-  --color-surface:      rgba(37,37,37,0.04);
+  --dark-1:           #F1EDEA;
+  --dark-2:       #E0DBD6;
+  --dark-4:       #D0CAC4;
+  --dark-3:      #EBE6E0;
+  --workflow-bg: #EBE6E0;
+  --media-bg:     #C8C3BC;
+  --light-1:      #1A1A1A;
+  --light-2:      #635D54;
+  --light-3:      #948F87;
+  --surface-tint:      rgba(37,37,37,0.04);
 }
 
 html.light .btn-primary       { background: #252525; color: #F1EDEA; border-color: #252525; }
@@ -46,14 +90,14 @@ html {
   /* Paint the bg on html so the colour fills the entire scrollable area on
      iOS Safari — without this, scrolling past body's height reveals the
      browser default and the page looks half-themed when toggling. */
-  background: var(--color-bg);
+  background: var(--dark-1);
   transition: background-color 0.2s ease;
 }
 body {
   min-height: 100%;
   font-family: var(--font);
-  background: var(--color-bg);
-  color: var(--color-light-2);
+  background: var(--dark-1);
+  color: var(--light-2);
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -80,7 +124,7 @@ a      { color: inherit; text-decoration: none; }
 button { background: none; border: none; cursor: pointer; font-family: var(--font); }
 ul { padding-left: 1em;   list-style-position: outside; }
 ol { padding-left: 1.4em; list-style-position: outside; }
-strong { font-weight: 600; color: var(--color-light-1); }
+strong { font-weight: 600; color: var(--light-1); }
 
 /* ══════════════════════════════════════════════════════════
    LOADING SCREEN
@@ -88,7 +132,7 @@ strong { font-weight: 600; color: var(--color-light-1); }
 .loading-screen {
   position: fixed;
   inset: 0;
-  background: var(--color-bg);
+  background: var(--dark-1);
   z-index: 9999;
   transition: opacity 0.4s ease;
   pointer-events: all;
@@ -144,7 +188,7 @@ strong { font-weight: 600; color: var(--color-light-1); }
 .resume-modal {
   position: fixed;
   inset: 0;
-  background: var(--color-bg);
+  background: var(--dark-1);
   z-index: 8000;
   display: flex;
   align-items: stretch;
@@ -159,7 +203,7 @@ strong { font-weight: 600; color: var(--color-light-1); }
   pointer-events: all;
 }
 .resume-modal-inner {
-  background: var(--color-bg);
+  background: var(--dark-1);
   width: 100vw;
   height: 100vh;
   border-radius: 0;
@@ -172,30 +216,30 @@ strong { font-weight: 600; color: var(--color-light-1); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--color-light-3);
+  padding: var(--space-16) var(--space-20);
+  border-bottom: 1px solid var(--light-3);
   flex-shrink: 0;
 }
 .resume-modal-title {
-  font-size: 14px; font-weight: 600; line-height: 20px;
-  color: var(--color-light-1);
+  font: var(--type-nav);
+  color: var(--light-1);
 }
-.resume-modal-actions { display: flex; gap: 16px; align-items: center; }
+.resume-modal-actions { display: flex; gap: var(--space-16); align-items: center; }
 .resume-modal-download {
-  font-size: 14px; font-weight: 600; line-height: 20px;
-  color: var(--color-light-2);
+  font: var(--type-nav);
+  color: var(--light-2);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.15s ease;
 }
-.resume-modal-download:hover { color: var(--color-light-1); }
+.resume-modal-download:hover { color: var(--light-1); }
 .resume-modal-close {
-  color: var(--color-light-2);
+  color: var(--light-2);
   cursor: pointer;
   display: flex;
   transition: color 0.15s ease;
 }
-.resume-modal-close:hover { color: var(--color-light-1); }
+.resume-modal-close:hover { color: var(--light-1); }
 .resume-modal-close svg { width: 20px; height: 20px; }
 .resume-modal iframe {
   flex: 1;
@@ -208,8 +252,8 @@ strong { font-weight: 600; color: var(--color-light-1); }
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 16px;
-  padding: 40px;
+  gap: var(--space-16);
+  padding: var(--space-40);
   text-align: center;
 }
 
@@ -221,11 +265,11 @@ strong { font-weight: 600; color: var(--color-light-1); }
   top: 0;
   z-index: 500;
   width: 100%;
-  background: var(--color-bg);
+  background: var(--dark-1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px max(20px, calc((100% - 680px) / 2));
+  padding: var(--space-12) max(var(--space-20), calc((100% - 680px) / 2));
   height: var(--nav-height);
   transition: background-color 0.2s ease;
 }
@@ -246,12 +290,12 @@ html.light .site-nav::before {
   opacity: 0.05;
 }
 
-.nav-left  { display: flex; gap: 40px; align-items: center; }
-.nav-right { display: flex; gap: 24px; align-items: center; }
+.nav-left  { display: flex; gap: var(--space-40); align-items: center; }
+.nav-right { display: flex; gap: var(--space-24); align-items: center; }
 
 .nav-link {
-  font-size: 14px; font-weight: 600; line-height: 20px;
-  color: var(--color-light-2);
+  font: var(--type-nav);
+  color: var(--light-2);
   text-decoration: underline;
   text-underline-offset: 2px;
   opacity: 0.9;
@@ -260,10 +304,9 @@ html.light .site-nav::before {
   white-space: nowrap;
   background: none;
   border: none;
-  font-family: var(--font);
   padding: 0;
 }
-.nav-link:hover { color: var(--color-light-1); opacity: 1; }
+.nav-link:hover { color: var(--light-1); opacity: 1; }
 
 /* ── Theme Toggle (inside nav) ───────────────────────────── */
 .theme-toggle {
@@ -274,14 +317,14 @@ html.light .site-nav::before {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-light-2);
+  color: var(--light-2);
   transition: color 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
-.theme-toggle:hover { color: var(--color-light-1); }
+.theme-toggle:hover { color: var(--light-1); }
 .theme-toggle svg   { width: 20px; height: 20px; flex-shrink: 0; }
 /* Invisible 32×32 tap target for mobile (visual stays 20×20, layout unaffected) */
 .theme-toggle::before {
@@ -302,42 +345,42 @@ html.light .theme-toggle .icon-moon { display: block; }
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 80px max(20px, calc((100% - 680px) / 2)) 128px;
+  padding: var(--space-80) max(var(--space-20), calc((100% - 680px) / 2)) var(--space-128);
   position: relative;
   z-index: 1;
 }
 
 /* Homepage — 100px top padding (148px Figma minus 48px sticky nav) */
-body.home .page { padding-top: 100px; }
+body.home .page { padding-top: var(--space-100); }
 
 /* Payments — 128px top padding, 92px between sections, 124px to footer */
-body.payments .page { padding-top: 128px; }
-body.payments .project-main { gap: 92px; }
-body.payments .content { gap: 124px; }
+body.payments .page { padding-top: var(--space-128); }
+body.payments .project-main { gap: var(--space-92); }
+body.payments .content { gap: var(--space-124); }
 /* Match Figma: paragraph → bullet list spacing equals paragraph → paragraph (24px) */
 body.payments .cs-body p + ul,
-body.payments .cs-body p + ol { margin-top: 24px; }
+body.payments .cs-body p + ol { margin-top: var(--space-24); }
 
 /* Onboarding — same outer rhythm as Payments, 72px between Solution subsections */
-body.onboarding .page { padding-top: 128px; }
-body.onboarding .project-main { gap: 92px; }
-body.onboarding .content { gap: 124px; }
-body.onboarding .cs-subsections { gap: 72px; }
+body.onboarding .page { padding-top: var(--space-128); }
+body.onboarding .project-main { gap: var(--space-92); }
+body.onboarding .content { gap: var(--space-124); }
+body.onboarding .cs-subsections { gap: var(--space-72); }
 body.onboarding .project-section > .cs-subsections { margin-top: 0; }
 /* Match Figma cs-body rhythm: 20px between paragraph blocks, 8px between list items */
-body.onboarding .cs-body p + p { margin-top: 20px; }
+body.onboarding .cs-body p + p { margin-top: var(--space-20); }
 body.onboarding .cs-body p + ul,
-body.onboarding .cs-body p + ol { margin-top: 12px; }
+body.onboarding .cs-body p + ol { margin-top: var(--space-12); }
 body.onboarding .cs-body ul + p,
-body.onboarding .cs-body ol + p { margin-top: 20px; }
+body.onboarding .cs-body ol + p { margin-top: var(--space-20); }
 body.onboarding .cs-body ul,
-body.onboarding .cs-body ol { gap: 8px; }
+body.onboarding .cs-body ol { gap: var(--space-8); }
 
 .content {
   width: 680px;
   display: flex;
   flex-direction: column;
-  gap: 200px;
+  gap: var(--space-200);
   flex-shrink: 0;
 }
 
@@ -345,54 +388,54 @@ body.onboarding .cs-body ol { gap: 8px; }
    TYPOGRAPHY
 ══════════════════════════════════════════════════════════ */
 
-/* H1 — 32/48 600 */
+/* Display — hero-level titles */
 .ds-h1 {
-  font-size: 32px; font-weight: 600; line-height: 48px;
-  color: var(--color-light-1);
+  font: var(--type-display);
+  color: var(--light-1);
 }
-/* H2 — 24/32 600 */
+/* H1 — section headings */
 .ds-h2 {
-  font-size: 24px; font-weight: 600; line-height: 32px;
-  color: var(--color-light-1);
+  font: var(--type-h1);
+  color: var(--light-1);
 }
-/* H2 muted */
+/* H1 muted */
 .ds-h2-muted {
-  font-size: 24px; font-weight: 600; line-height: 32px;
-  color: var(--color-light-2);
+  font: var(--type-h1);
+  color: var(--light-2);
 }
-/* H3 — 20/28 600 */
+/* H1 — 404 "Page not found" */
 .ds-h3 {
-  font-size: 20px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h1);
+  color: var(--light-1);
 }
-/* H3 muted */
+/* Subtitle — quiet secondary text */
 .ds-h3-muted {
-  font-size: 20px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-h2);
+  color: var(--light-2);
 }
-/* Body — 16/28 400 */
+/* Body */
 .ds-body {
-  font-size: 16px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
-.ds-body p, .ds-body li { font-size: 16px; line-height: 28px; }
-/* Body Highlight — 16/28 600 */
+.ds-body p, .ds-body li { font: var(--type-body); }
+/* Body Highlight — mapped to H3 (exact value match: 16/600/28) */
 .ds-body-highlight {
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-h3);
+  color: var(--light-2);
 }
-/* Caption — 12/16 400 */
+/* Caption */
 .ds-caption {
-  font-size: 12px; font-weight: 400; line-height: 16px;
-  color: var(--color-light-2);
+  font: var(--type-caption);
+  color: var(--light-2);
 }
 
 /* ══════════════════════════════════════════════════════════
    LINKS
 ══════════════════════════════════════════════════════════ */
 .ds-link {
-  font-size: 14px; font-weight: 600; line-height: 20px;
-  color: var(--color-light-1);
+  font: var(--type-nav);
+  color: var(--light-1);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: opacity 0.15s ease;
@@ -402,52 +445,49 @@ body.onboarding .cs-body ol { gap: 8px; }
 .ds-link:hover { opacity: 0.55; }
 
 .ds-link-muted {
-  font-size: 14px; font-weight: 600; line-height: 20px;
-  color: var(--color-light-2);
+  font: var(--type-nav);
+  color: var(--light-2);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.15s ease;
   cursor: pointer;
   white-space: nowrap;
 }
-.ds-link-muted:hover { color: var(--color-light-1); }
+.ds-link-muted:hover { color: var(--light-1); }
 
 .ds-link-row {
   display: flex;
-  gap: 24px;
+  gap: var(--space-24);
   align-items: flex-start;
   flex-wrap: wrap;
 }
 
 .ds-list { padding-left: 1.2em; }
-.ds-list li { line-height: 28px; margin-bottom: 4px; }
+.ds-list li { line-height: 28px; margin-bottom: var(--space-4); }
 
-/* Principles bullet list — Source Serif Pro 18/28 */
+/* Principles bullet list — mapped to Body */
 .principles-list {
   list-style: disc;
   padding-left: 1.5em;
   display: flex;
   flex-direction: column;
   gap: 0;
-  font-family: var(--font-body);
-  font-size: 18px;
-  color: var(--color-light-2);
+  color: var(--light-2);
 }
-.principles-list li { font-size: 18px; line-height: 28px; }
+.principles-list li { font: var(--type-body); }
 
 /* ══════════════════════════════════════════════════════════
    BUTTONS
 ══════════════════════════════════════════════════════════ */
-.btn-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.btn-row { display: flex; gap: var(--space-16); align-items: center; flex-wrap: wrap; }
 
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-20);
   border-radius: 4px;
-  font-family: var(--font);
-  font-size: 14px; font-weight: 600; line-height: 20px;
+  font: var(--type-nav);
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
@@ -456,18 +496,18 @@ body.onboarding .cs-body ol { gap: 8px; }
 .btn svg { flex-shrink: 0; width: 20px; height: 20px; }
 
 .btn-primary {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border: 1px solid transparent;
-  color: var(--color-light-1);
+  color: var(--light-1);
 }
-.btn-primary:hover { background: var(--color-dark-3); }
+.btn-primary:hover { background: var(--dark-4); }
 
 .btn-secondary {
   background: transparent;
-  border: 1px solid var(--color-dark-2);
-  color: var(--color-light-2);
+  border: 1px solid var(--dark-2);
+  color: var(--light-2);
 }
-.btn-secondary:hover { border-color: var(--color-dark-3); }
+.btn-secondary:hover { border-color: var(--dark-4); }
 
 /* ══════════════════════════════════════════════════════════
    TABS  (work.html)
@@ -475,7 +515,7 @@ body.onboarding .cs-body ol { gap: 8px; }
 .tab-bar-sticky {
   position: sticky;
   top: var(--nav-height);
-  background: var(--color-bg);
+  background: var(--dark-1);
   z-index: 10;
   padding-bottom: 1px;
   transition: background-color 0.2s ease;
@@ -484,7 +524,7 @@ body.onboarding .cs-body ol { gap: 8px; }
 .tab-bar {
   display: flex;
   align-items: flex-end;
-  border-bottom: 1.5px solid var(--color-dark-3);
+  border-bottom: 1.5px solid var(--dark-4);
   width: 100%;
   overflow-x: auto;
   -ms-overflow-style: none;
@@ -497,10 +537,9 @@ body.onboarding .cs-body ol { gap: 8px; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 8px 24px 8px 8px;
-  font-family: var(--font);
-  font-size: 14px; font-weight: 600; line-height: 22px;
-  color: var(--color-light-3);
+  padding: var(--space-8) var(--space-24) var(--space-8) var(--space-8);
+  font: var(--type-nav);
+  color: var(--light-3);
   background: none; border: none;
   border-bottom: 1.5px solid transparent;
   margin-bottom: -1.5px;
@@ -508,15 +547,15 @@ body.onboarding .cs-body ol { gap: 8px; }
   transition: color 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
 }
-.tab-btn:hover  { color: var(--color-light-2); }
-.tab-btn.active { color: var(--color-light-2); border-bottom-color: var(--color-light-2); }
+.tab-btn:hover  { color: var(--light-2); }
+.tab-btn.active { color: var(--light-2); border-bottom-color: var(--light-2); }
 
 /* ══════════════════════════════════════════════════════════
    FOOTER
 ══════════════════════════════════════════════════════════ */
 .ds-footer-row {
-  border-top: 1px solid var(--color-dark-3);
-  padding-top: 33px;
+  border-top: 1px solid var(--dark-4);
+  padding-top: var(--space-32);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -529,32 +568,32 @@ body.onboarding .cs-body ol { gap: 8px; }
 
 /* Main content column — 132px between all sections */
 .bio-main {
-  display: flex; flex-direction: column; gap: 132px;
+  display: flex; flex-direction: column; gap: var(--space-132);
 }
 
-/* Hero block: identity + statement+bio — large gap creates open top */
+/* Hero block: identity + statement+bio — large gap creates open top.
+   Original 282px snapped to nearest 4px step: 280px (−2px). */
 .bio-identity-group {
-  display: flex; flex-direction: column; gap: 282px;
+  display: flex; flex-direction: column; gap: var(--space-280);
 }
 
 /* Identity block: name, role, company — 4px gap (matches Figma) */
 .bio-identity {
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex; flex-direction: column; gap: var(--space-4);
 }
 
-/* Company line — 16px Sora SemiBold muted, with right-arrow icon */
+/* Company line — mapped to H3 */
 .bio-company {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-family: var(--font);
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-2);
+  gap: var(--space-4);
+  font: var(--type-h3);
+  color: var(--light-2);
   text-decoration: none;
   width: fit-content;
   transition: color 0.15s ease;
 }
-.bio-company:hover { color: var(--color-light-1); }
+.bio-company:hover { color: var(--light-1); }
 .bio-company-arrow {
   flex-shrink: 0;
   transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -563,45 +602,42 @@ body.onboarding .cs-body ol { gap: 8px; }
 
 /* Statement + 9-years bio — gap 16px (matches Figma) */
 .bio-statement-block {
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex; flex-direction: column; gap: var(--space-16);
 }
 
-/* Statement — 20px Sora SemiBold, light-1 (same spec as ds-h3) */
+/* Statement — mapped to Body */
 .bio-statement {
-  font-family: var(--font);
-  font-size: 20px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h2);
+  color: var(--light-1);
 }
 
-/* Bio text — Source Serif Pro 18/28 (matches Figma body) */
+/* Bio text — mapped to Body */
 .bio-text {
-  font-family: var(--font-body);
-  font-size: 18px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 .bio-text p { margin-bottom: 0; }
 
 /* Inline highlight — light-1 colour, no weight change (matches Figma "9 years") */
 .text-highlight {
-  color: var(--color-light-1);
+  color: var(--light-1);
 }
 
 /* Section: heading + content — gap 32px (matches Figma) */
 .bio-section {
-  display: flex; flex-direction: column; gap: 32px;
+  display: flex; flex-direction: column; gap: var(--space-32);
 }
 
 /* Work at Xoxoday — flat flex column, gap 44px between all items */
 .work-section {
-  display: flex; flex-direction: column; gap: 44px;
-  scroll-margin-top: calc(var(--nav-height) + 24px);
+  display: flex; flex-direction: column; gap: var(--space-44);
+  scroll-margin-top: calc(var(--nav-height) + var(--space-24));
 }
 
-/* Intro paragraph — Source Serif Pro 18/28 muted */
+/* Intro paragraph — mapped to Body */
 .work-intro {
-  font-family: var(--font-body);
-  font-size: 18px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 
 /* Two-column focus row: label (160px) + desc (442px) — Figma uses justify-between in 680px column */
@@ -613,46 +649,45 @@ body.onboarding .cs-body ol { gap: 8px; }
 .work-focus-label {
   width: 160px;
   flex-shrink: 0;
-  font-family: var(--font);
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h3);
+  color: var(--light-1);
 }
 .work-focus-desc {
   width: 442px;
   flex-shrink: 0;
-  font-family: var(--font-body);
-  font-size: 18px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 
 /* Projects sub-section (legacy: cards under work-section) */
 .projects-sub {
-  display: flex; flex-direction: column; gap: 32px;
+  display: flex; flex-direction: column; gap: var(--space-32);
 }
 
 /* Projects section (new top-level section after Work at Xoxoday) */
 .projects-section {
   display: flex; flex-direction: column;
-  gap: 44px;
-  scroll-margin-top: calc(var(--nav-height) + 24px);
+  gap: var(--space-44);
+  scroll-margin-top: calc(var(--nav-height) + var(--space-24));
 }
 .projects-header {
   display: flex; flex-direction: column;
-  gap: 4px;
+  gap: var(--space-4);
 }
 
 /* Project cards — split layout: thumbnail (left) + content (right).
    No card chrome — content aligns with the page column. Thumbnail keeps its
-   own panel bg (#313131); content sits directly on the page bg. */
+   own panel bg (#313131); content sits directly on the page bg.
+   Original 50px gap snapped to nearest 4px step: 48px (−2px). */
 .project-card {
   display: flex;
   align-items: stretch;
-  gap: 50px;
+  gap: var(--space-48);
   text-decoration: none;
   color: inherit;
 }
 .project-card:focus-visible {
-  outline: 2px solid var(--color-light-1);
+  outline: 2px solid var(--light-1);
   outline-offset: 4px;
   border-radius: 6px;
 }
@@ -663,7 +698,7 @@ body.onboarding .cs-body ol { gap: 8px; }
   align-self: stretch;
   border-radius: 6px;
   overflow: hidden;
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   position: relative;
 }
 .project-card-thumb img {
@@ -685,62 +720,57 @@ body.onboarding .cs-body ol { gap: 8px; }
 .project-card-content {
   flex: 1;
   min-width: 0;
-  margin: 4px 0;
+  margin: var(--space-4) 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-8);
 }
 
 .project-card-title {
-  font-family: var(--font);
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h2);
+  color: var(--light-1);
 }
 
 .project-card-body {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  font-family: var(--font-body);
-  font-size: 18px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  gap: var(--space-28);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 .project-card-body p { margin: 0; }
 
 .project-card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 12px;
+  gap: var(--space-16);
+  margin-top: var(--space-12);
 }
 .project-card-tag {
-  background: var(--color-dark-2);
-  color: var(--color-light-2);
-  font-family: var(--font);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  padding: 6px 8px;
+  background: var(--dark-2);
+  color: var(--light-2);
+  font: var(--type-caption);
+  font-weight: 500;
+  padding: var(--space-8) var(--space-8);
   border-radius: 8px;
   white-space: nowrap;
 }
 
-/* Experience — simple stacked entries */
+/* Experience — simple stacked entries.
+   Original 22px gap snapped to nearest 4px step: 24px (+2px). */
 .exp-entries {
-  display: flex; flex-direction: column; gap: 22px;
+  display: flex; flex-direction: column; gap: var(--space-24);
 }
 .exp-entry {
   display: flex; flex-direction: column; gap: 0;
 }
 .exp-date {
-  font-family: var(--font-body);
-  font-size: 18px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-caption);
+  color: var(--light-2);
 }
 .exp-title {
-  font-family: var(--font);
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h3);
+  color: var(--light-1);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -748,87 +778,87 @@ body.onboarding .cs-body ol { gap: 8px; }
 ══════════════════════════════════════════════════════════ */
 
 .project-main {
-  display: flex; flex-direction: column; gap: 72px;
+  display: flex; flex-direction: column; gap: var(--space-72);
   width: 100%;
 }
 
 /* Hero */
 .project-hero {
-  display: flex; flex-direction: column; gap: 32px;
+  display: flex; flex-direction: column; gap: var(--space-32);
 }
 .project-hero-text {
-  display: flex; flex-direction: column; gap: 12px;
+  display: flex; flex-direction: column; gap: var(--space-12);
 }
 .project-hero-title {
-  font-size: 32px; font-weight: 600; line-height: 48px;
-  color: var(--color-light-1);
+  font: var(--type-display);
+  color: var(--light-1);
 }
 .project-hero-desc {
-  font-family: var(--font-body);
-  font-size: 18px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 
 /* Project section */
 .project-section {
-  display: flex; flex-direction: column; gap: 32px;
+  display: flex; flex-direction: column; gap: var(--space-32);
 }
 .project-section-heading {
-  font-size: 20px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h2);
+  color: var(--light-1);
 }
 
-/* Project body text */
+/* Project body text — mapped to Body */
 .project-body {
-  font-size: 16px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 .project-body p { margin-bottom: 0; }
-.project-body p + p { margin-top: 16px; }
-.project-body strong { font-weight: 600; color: var(--color-light-1); }
+.project-body p + p { margin-top: var(--space-16); }
+.project-body strong { font-weight: 600; color: var(--light-1); }
 .project-body ul, .project-body ol {
   padding-left: 1.2em;
-  display: flex; flex-direction: column; gap: 4px;
-  margin-top: 8px;
+  display: flex; flex-direction: column; gap: var(--space-4);
+  margin-top: var(--space-8);
 }
-.project-body li { line-height: 28px; }
+.project-body li { font: var(--type-body); }
 
-/* Role list */
+/* Role list — mapped to Body */
 .project-role-list {
   padding-left: 1.2em;
-  display: flex; flex-direction: column; gap: 4px;
-  margin-top: 8px;
+  display: flex; flex-direction: column; gap: var(--space-4);
+  margin-top: var(--space-8);
 }
 .project-role-list li {
-  font-size: 16px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 
-/* Impact list */
+/* Impact list — mapped to Body.
+   Original 6px gap snapped to nearest 4px step: 8px (+2px). */
 .project-impact-list {
   padding-left: 1.2em;
-  display: flex; flex-direction: column; gap: 6px;
+  display: flex; flex-direction: column; gap: var(--space-8);
 }
 .project-impact-list li {
-  font-size: 16px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 
-/* Execution sub-section */
+/* Execution sub-section — mapped to H3 (exact value match: 16/600/28) */
 .project-subsection {
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex; flex-direction: column; gap: var(--space-16);
 }
 .project-subsection-heading {
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h3);
+  color: var(--light-1);
 }
 
 /* Image placeholder */
 .project-img-placeholder {
   width: 100%;
   height: 440px;
-  background: var(--color-surface);
-  border: 1px dashed var(--color-light-3);
+  background: var(--surface-tint);
+  border: 1px dashed var(--light-3);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -838,7 +868,7 @@ body.onboarding .cs-body ol { gap: 8px; }
   overflow: hidden;
   flex-shrink: 0;
 }
-.project-img-placeholder:hover { border-color: var(--color-light-2); }
+.project-img-placeholder:hover { border-color: var(--light-2); }
 .project-img-placeholder img {
   width: 100%; height: 100%;
   object-fit: cover;
@@ -846,37 +876,37 @@ body.onboarding .cs-body ol { gap: 8px; }
 }
 .project-img-placeholder-label {
   font-size: 12px; font-weight: 400; line-height: 16px;
-  color: var(--color-light-3);
+  color: var(--light-3);
   text-align: center;
-  padding: 20px;
+  padding: var(--space-20);
 }
 
 /* More projects section */
 .more-projects {
-  display: flex; flex-direction: column; gap: 44px;
+  display: flex; flex-direction: column; gap: var(--space-44);
 }
 
 /* Before/after block */
 .before-after-block {
-  background: var(--color-before-after);
-  padding: 28px;
-  display: flex; flex-direction: column; gap: 12px;
+  background: var(--workflow-bg);
+  padding: var(--space-28);
+  display: flex; flex-direction: column; gap: var(--space-12);
   border-radius: 8px;
 }
 .before-after-item {
-  display: flex; flex-direction: column; gap: 8px;
+  display: flex; flex-direction: column; gap: var(--space-8);
 }
 .before-after-label {
   font-family: var(--font);
   font-size: 12px; font-weight: 400; line-height: 16px;
-  color: var(--color-light-1);
+  color: var(--light-1);
 }
 
 /* Divider */
 .section-divider {
   width: 100%;
   border: none;
-  border-top: 1px solid var(--color-light-3);
+  border-top: 1px solid var(--light-3);
   margin: 0;
 }
 
@@ -884,49 +914,49 @@ body.onboarding .cs-body ol { gap: 8px; }
    WORK PAGE — work.html
 ══════════════════════════════════════════════════════════ */
 .work-main {
-  display: flex; flex-direction: column; gap: 72px; width: 100%;
+  display: flex; flex-direction: column; gap: var(--space-72); width: 100%;
 }
 .work-header {
-  display: flex; flex-direction: column; gap: 20px;
+  display: flex; flex-direction: column; gap: var(--space-20);
 }
 .work-projects-section {
-  display: flex; flex-direction: column; gap: 72px;
+  display: flex; flex-direction: column; gap: var(--space-72);
 }
 .work-projects-intro {
-  display: flex; flex-direction: column; gap: 20px;
+  display: flex; flex-direction: column; gap: var(--space-20);
 }
 .project-list {
-  display: flex; flex-direction: column; gap: 112px;
-  padding: 0 4px; width: 100%;
+  display: flex; flex-direction: column; gap: var(--space-112);
+  padding: 0 var(--space-4); width: 100%;
 }
 .project-entry {
-  display: flex; flex-direction: column; gap: 32px;
+  display: flex; flex-direction: column; gap: var(--space-32);
 }
 .project-title-block {
-  display: flex; flex-direction: column; gap: 12px;
+  display: flex; flex-direction: column; gap: var(--space-12);
 }
 .project-subsection-old {
-  display: flex; flex-direction: column; gap: 20px;
+  display: flex; flex-direction: column; gap: var(--space-20);
 }
 .project-img {
   width: 100%; height: 439px;
-  background: var(--color-surface);
-  border: 1px dashed var(--color-light-3);
+  background: var(--surface-tint);
+  border: 1px dashed var(--light-3);
   flex-shrink: 0;
   cursor: pointer;
   transition: border-color 0.15s ease;
 }
-.project-img:hover { border-color: var(--color-light-2); }
-.project-entry[id] { scroll-margin-top: calc(var(--nav-height) + 96px); }
+.project-img:hover { border-color: var(--light-2); }
+.project-entry[id] { scroll-margin-top: calc(var(--nav-height) + var(--space-96)); }
 .project-divider {
   width: 100%; border: none;
-  border-top: 1px solid var(--color-light-3); margin: 0;
+  border-top: 1px solid var(--light-3); margin: 0;
 }
 
 /* Video placeholder */
 .video-placeholder {
   width: 100%; height: 330px;
-  background: var(--color-video-bg);
+  background: var(--media-bg);
   position: relative;
   display: flex; align-items: center; justify-content: center;
   border-radius: 4px;
@@ -947,7 +977,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: var(--space-40) var(--space-20);
   position: relative;
   z-index: 1;
 }
@@ -955,13 +985,13 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-24);
   align-items: center;
   max-width: 480px;
 }
 .page-404-code {
-  font-size: 80px; font-weight: 600; line-height: 1;
-  color: var(--color-light-3);
+  font: var(--type-code);
+  color: var(--light-3);
   letter-spacing: -4px;
 }
 
@@ -969,15 +999,15 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
    AI SYSTEM CASE STUDY
 ══════════════════════════════════════════════════════════ */
 
-/* Hero subtitle — 14px matching Figma */
+/* Hero subtitle — mapped to Subtitle (exact size/weight match: 14/400) */
 .cs-hero-desc {
-  font-size: 14px; font-weight: 400; line-height: 26px;
-  color: var(--color-light-2);
+  font: var(--type-subtitle);
+  color: var(--light-2);
 }
 
 /* Hero image panel — overlapping screenshots */
 .cs-hero-panel {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
   height: 260px;
   overflow: hidden;
@@ -992,66 +1022,65 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   border-radius: 3px;
 }
 
-/* Case-study body — Source Serif Pro 18/28 (matches Figma Body token) */
+/* Case-study body — mapped to Body */
 .cs-body {
-  font-family: var(--font-body);
-  font-size: 18px; font-weight: 400; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 .cs-body p { margin: 0; }
-.cs-body p + p { margin-top: 24px; }
+.cs-body p + p { margin-top: var(--space-24); }
 .cs-body p + ul,
-.cs-body p + ol { margin-top: 12px; }
+.cs-body p + ol { margin-top: var(--space-12); }
 .cs-body ul + p,
-.cs-body ol + p { margin-top: 24px; }
+.cs-body ol + p { margin-top: var(--space-24); }
 .cs-body ul,
 .cs-body ol {
   padding-left: 1.2em;
   margin: 0;
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex; flex-direction: column; gap: var(--space-4);
 }
-.cs-body li { line-height: 28px; }
+.cs-body li { font: var(--type-body); }
 
-/* Bold sub-heading inside cs-body — Sora SemiBold 16/28 (Figma Body Highlight) */
+/* Bold sub-heading inside cs-body — mapped to H3 (exact value match: 16/600/28) */
 .cs-sub-heading {
-  font-family: var(--font);
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
-  margin-top: 24px !important;
+  font: var(--type-h3);
+  color: var(--light-1);
+  margin-top: var(--space-24) !important;
   margin-bottom: 0 !important;
 }
-.cs-sub-heading + ul { margin-top: 6px; }
+/* Original 6px margin snapped to nearest 4px step: 8px (+2px). */
+.cs-sub-heading + ul { margin-top: var(--space-8); }
 
 /* Inline highlight — light-1 colour + Source Serif Pro 600, no underline */
 .cs-link {
-  color: var(--color-light-1);
+  color: var(--light-1);
   font-weight: 600;
 }
 
-/* H2-size subsection heading (24px) */
+/* Subsection heading — mapped to H1 */
 .cs-section-heading {
-  font-size: 24px; font-weight: 600; line-height: 32px;
-  color: var(--color-light-1);
+  font: var(--type-h1);
+  color: var(--light-1);
 }
 
 /* Execution section (AI system) — extra spacing between subsections */
-.cs-execution { gap: 32px; }
-.cs-subsection { display: flex; flex-direction: column; gap: 32px; }
-.cs-execution > .cs-subsection + .cs-subsection { padding-top: 40px; }
+.cs-execution { gap: var(--space-32); }
+.cs-subsection { display: flex; flex-direction: column; gap: var(--space-32); }
+.cs-execution > .cs-subsection + .cs-subsection { padding-top: var(--space-40); }
 
 /* Payments-style subsections wrapper — 52px rhythm between subsections */
 .cs-subsections {
   display: flex; flex-direction: column;
-  gap: 52px;
+  gap: var(--space-52);
   width: 100%;
 }
 /* Solution heading → first subsection: parent .project-section gap is 32px; +20 → 52px (matches inter-subsection rhythm) */
-.project-section > .cs-subsections { margin-top: 20px; }
+.project-section > .cs-subsections { margin-top: var(--space-20); }
 
 /* Two side-by-side image panels (Payments Clean Report Separation, etc.) */
 .cs-pair {
   display: flex;
-  gap: 20px;
+  gap: var(--space-20);
   width: 100%;
 }
 .cs-pair > .cs-img-wrap { flex: 1; min-width: 0; }
@@ -1059,24 +1088,24 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 /* Stacked image panels with single caption at the end (Onboarding Guided / Early Visibility) */
 .cs-img-stack {
   display: flex; flex-direction: column;
-  gap: 12px;
+  gap: var(--space-12);
   width: 100%;
 }
 
-/* Centred workflow flow box — bg surface, white centred Sora text (Onboarding Solution) */
+/* Centred workflow flow box — bg surface, white centred Sora text (Onboarding Solution).
+   Original 30px padding snapped to nearest 4px step: 32px (+2px). */
 .cs-flow-box {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
-  padding: 30px 0;
+  padding: var(--space-32) 0;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
 .cs-flow-box p {
-  font-family: var(--font);
-  font-size: 12px; font-weight: 400; line-height: 16px;
-  color: var(--color-light-1);
+  font: var(--type-caption);
+  color: var(--light-1);
   text-align: center;
   max-width: 590px;
   margin: 0;
@@ -1084,49 +1113,52 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 }
 
 /* Image wrappers */
-.cs-img-wrap { display: flex; flex-direction: column; gap: 8px; }
+.cs-img-wrap { display: flex; flex-direction: column; gap: var(--space-8); }
 .cs-img-caption {
-  font-size: 12px; font-weight: 400; line-height: 16px;
-  color: var(--color-light-2);
+  font: var(--type-caption);
+  color: var(--light-2);
 }
 
-/* DS Grid — left tall col + right 3-row col */
+/* DS Grid — left tall col + right 3-row col.
+   Original 10px row-gap snapped to nearest 4px step: 12px (+2px). */
 .cs-ds-grid {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
-  padding: 16px;
+  padding: var(--space-16);
   display: grid;
   grid-template-columns: 37% 1fr;
   grid-template-rows: auto auto auto;
-  column-gap: 16px;
-  row-gap: 10px;
+  column-gap: var(--space-16);
+  row-gap: var(--space-12);
 }
+/* Original 6px gap snapped to nearest 4px step: 8px (+2px). */
 .cs-ds-left {
   grid-row: 1 / 4;
-  display: flex; flex-direction: column; gap: 6px;
+  display: flex; flex-direction: column; gap: var(--space-8);
 }
 .cs-ds-left img {
   flex: 1; width: 100%; min-height: 0;
   object-fit: cover; border-radius: 2px; display: block;
 }
-.cs-ds-right-cell { display: flex; flex-direction: column; gap: 5px; }
+/* Original 5px gap snapped to nearest 4px step: 4px (−1px). */
+.cs-ds-right-cell { display: flex; flex-direction: column; gap: var(--space-4); }
 .cs-ds-right-cell img {
   width: 100%; object-fit: cover; border-radius: 2px; display: block;
 }
 .cs-ds-label {
   font-size: 8px; line-height: 12px;
-  color: var(--color-light-1);
+  color: var(--light-1);
   display: block;
 }
 
 /* Side-by-side image panel */
 .cs-panel-duo {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
   overflow: hidden;
   display: flex;
-  gap: 10px;
-  padding: 12px;
+  gap: var(--space-12);
+  padding: var(--space-12);
   height: 244px;
 }
 .cs-panel-duo img {
@@ -1136,12 +1168,12 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 
 /* 3-image panel */
 .cs-panel-trio {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
   overflow: hidden;
   display: flex;
-  gap: 8px;
-  padding: 12px;
+  gap: var(--space-8);
+  padding: var(--space-12);
   height: 260px;
 }
 .cs-panel-trio img {
@@ -1151,10 +1183,10 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 
 /* Single-image panel */
 .cs-panel-solo {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
   overflow: hidden;
-  padding: 12px;
+  padding: var(--space-12);
   height: 260px;
 }
 .cs-panel-solo img {
@@ -1165,12 +1197,12 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 
 /* Key Moment — left narrow col + right wide col */
 .cs-panel-key {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
   overflow: hidden;
   display: flex;
-  gap: 10px;
-  padding: 12px;
+  gap: var(--space-12);
+  padding: var(--space-12);
   height: 284px;
 }
 .cs-panel-key-left { width: 120px; flex-shrink: 0; }
@@ -1180,7 +1212,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 
 /* Full-height image panel — shows full image at natural aspect ratio */
 .cs-panel-full {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -1193,40 +1225,37 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 
 /* Before / After workflow box */
 .cs-workflow-box {
-  background: var(--color-dark-2);
+  background: var(--dark-2);
   border-radius: 4px;
-  padding: 28px 44px;
-  display: flex; flex-direction: column; gap: 16px;
+  padding: var(--space-28) var(--space-44);
+  display: flex; flex-direction: column; gap: var(--space-16);
 }
 .cs-workflow-line {
-  font-size: 14px; line-height: 20px;
-  color: var(--color-light-2);
+  font: var(--type-subtitle);
+  color: var(--light-2);
 }
 .cs-workflow-label { font-weight: 400; }
-.cs-workflow-flow { font-weight: 600; color: var(--color-light-1); }
+.cs-workflow-flow { font-weight: 600; color: var(--light-1); }
 .cs-workflow-caption {
-  font-family: var(--font);
-  font-size: 12px; font-weight: 400; line-height: 16px;
-  color: var(--color-light-2);
-  margin-top: -8px;
+  font: var(--type-caption);
+  color: var(--light-2);
+  margin-top: calc(-1 * var(--space-8));
 }
 
 /* Impact list with bold item headings */
 .cs-impact-list {
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex; flex-direction: column; gap: var(--space-16);
   list-style: disc;
   padding-left: 1.2em;
 }
 .cs-impact-item {
-  font-family: var(--font-body);
-  font-size: 18px; line-height: 28px;
-  color: var(--color-light-2);
+  font: var(--type-body);
+  color: var(--light-2);
 }
 .cs-impact-heading {
   display: block;
-  font-family: var(--font);
-  font-size: 16px; font-weight: 600; line-height: 28px;
-  color: var(--color-light-1);
+  font: var(--type-h3);
+  color: var(--light-1);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1242,11 +1271,10 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--color-light-1);
-  color: var(--color-bg);
-  font-family: var(--font);
-  font-size: 12px; font-weight: 400; line-height: 16px;
-  padding: 6px 10px;
+  background: var(--light-1);
+  color: var(--dark-1);
+  font: var(--type-caption);
+  padding: var(--space-8) var(--space-12);
   border-radius: 4px;
   white-space: nowrap;
   opacity: 0;
@@ -1279,50 +1307,63 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 }
 
 @media (max-width: 900px) {
-  .page                 { padding-top: 60px; padding-bottom: 100px; }
-  .content              { gap: 120px; }
-  .bio-main             { gap: 80px; }
-  .bio-identity-group   { gap: 160px; }
-  .work-section         { gap: 32px; }
-  .work-main            { gap: 48px; }
-  .project-list         { gap: 72px; }
-  .project-main         { gap: 52px; }
+  .page                 { padding-top: var(--space-60); padding-bottom: var(--space-100); }
+  .content              { gap: var(--space-120); }
+  .bio-main             { gap: var(--space-80); }
+  .bio-identity-group   { gap: var(--space-160); }
+  .work-section         { gap: var(--space-32); }
+  .work-main            { gap: var(--space-48); }
+  .project-list         { gap: var(--space-72); }
+  .project-main         { gap: var(--space-52); }
   .project-img-placeholder { height: 280px; }
-  .work-focus-row       { flex-direction: column; gap: 8px; }
+  .work-focus-row       { flex-direction: column; gap: var(--space-8); }
   .work-focus-label     { width: 100%; }
   .work-focus-desc      { width: 100%; }
 }
 
 /* Project card stacks vertically on narrow viewports — thumbnail on top */
 @media (max-width: 720px) {
-  .project-card        { flex-direction: column; align-items: stretch; gap: 24px; }
+  :root {
+    /* Type scale — ≤720px step (see :root definitions at top of file) */
+    --type-display: 600 28px/1.4 var(--font);
+    --type-h1:      600 22px/1.3 var(--font);
+    --type-h2:      600 18px/1.4 var(--font);
+    --type-h3:      600 16px/1.6 var(--font);
+  }
+  .project-card        { flex-direction: column; align-items: stretch; gap: var(--space-24); }
   .project-card-thumb  { width: 100%; height: 300px; aspect-ratio: auto; }
-  .project-card-body   { font-size: 16px; line-height: 26px; gap: 20px; }
-  .project-card-tags   { gap: 12px; }
+  .project-card-body   { gap: var(--space-20); }
+  .project-card-tags   { gap: var(--space-12); }
 }
 
 @media (max-width: 600px) {
   .site-nav             { height: auto; min-height: 44px; }
-  .nav-left             { gap: 24px; }
-  .nav-right            { gap: 16px; }
-  .page                 { padding-top: 48px; padding-bottom: 80px; }
-  .content              { gap: 80px; }
-  .bio-main             { gap: 60px; }
-  .bio-identity-group   { gap: 96px; }
-  .bio-statement        { font-size: 18px; line-height: 26px; }
-  .bio-section          { gap: 24px; }
-  .work-section         { gap: 24px; }
-  .project-card     { gap: 20px; }
+  .nav-left             { gap: var(--space-24); }
+  .nav-right            { gap: var(--space-16); }
+  .page                 { padding-top: var(--space-48); padding-bottom: var(--space-80); }
+  .content              { gap: var(--space-80); }
+  .bio-main             { gap: var(--space-60); }
+  .bio-identity-group   { gap: var(--space-96); }
+  .bio-section          { gap: var(--space-24); }
+  .work-section         { gap: var(--space-24); }
+  .project-card     { gap: var(--space-20); }
   .project-card-thumb { height: 300px; }
-  .project-card-content { gap: 16px; }
-  .project-card-title { font-size: 16px; line-height: 24px; }
+  .project-card-content { gap: var(--space-16); }
   .project-img-placeholder { height: 200px; }
-  .project-main     { gap: 40px; }
-  .project-hero-title { font-size: 26px; line-height: 36px; }
-  .ds-link-row      { gap: 16px; }
-  .ds-footer-row    { flex-direction: column; gap: 20px; }
-  .project-list     { gap: 48px; }
+  .project-main     { gap: var(--space-40); }
+  .ds-link-row      { gap: var(--space-16); }
+  .ds-footer-row    { flex-direction: column; gap: var(--space-20); }
+  .project-list     { gap: var(--space-48); }
   .video-placeholder { height: 200px; }
-  .before-after-block { padding: 20px; }
+  .before-after-block { padding: var(--space-20); }
   .page-404-code    { font-size: 56px; }
+}
+
+@media (max-width: 480px) {
+  :root {
+    /* Type scale — ≤480px step (see :root definitions at top of file) */
+    --type-display: 600 26px/1.35 var(--font);
+    --type-h1:      600 20px/1.3  var(--font);
+    --type-body:    400 15px/1.6  var(--font);
+  }
 }
