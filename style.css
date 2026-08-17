@@ -1320,6 +1320,30 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   .email-tooltip { display: none; }
 }
 
+/* Snackbar — mobile-only copy confirmation, since the hover tooltip above
+   is hidden on touch devices. */
+.snackbar {
+  display: none;
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-32);
+  transform: translateX(-50%) translateY(8px);
+  background: var(--light-1);
+  color: var(--dark-1);
+  font: var(--type-caption);
+  padding: var(--space-12) var(--space-20);
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 999;
+}
+@media (hover: none) {
+  .snackbar { display: block; }
+  .snackbar.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 /* ══════════════════════════════════════════════════════════
    REDUCED MOTION (a11y)
 ══════════════════════════════════════════════════════════ */

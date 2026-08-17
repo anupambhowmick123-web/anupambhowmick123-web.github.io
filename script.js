@@ -15,6 +15,20 @@ if (loadingScreen) {
 }
 
 // ── Email copy to clipboard ───────────────────────────────
+let snackbarTimer;
+function showSnackbar(message) {
+  let snackbar = document.querySelector('.snackbar');
+  if (!snackbar) {
+    snackbar = document.createElement('div');
+    snackbar.className = 'snackbar';
+    document.body.appendChild(snackbar);
+  }
+  snackbar.textContent = message;
+  snackbar.classList.add('visible');
+  clearTimeout(snackbarTimer);
+  snackbarTimer = setTimeout(() => snackbar.classList.remove('visible'), 1800);
+}
+
 document.querySelectorAll('.email-copy').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
@@ -22,14 +36,16 @@ document.querySelectorAll('.email-copy').forEach(link => {
     navigator.clipboard.writeText(email).then(() => {
       const wrapper = link.closest('.email-tooltip-wrapper');
       const tooltip = wrapper ? wrapper.querySelector('.email-tooltip') : null;
-      if (!tooltip) return;
-      const original = tooltip.textContent;
-      tooltip.textContent = 'Email copied!';
-      tooltip.style.opacity = '1';
-      setTimeout(() => {
-        tooltip.textContent = original;
-        tooltip.style.opacity = '';
-      }, 1800);
+      if (tooltip) {
+        const original = tooltip.textContent;
+        tooltip.textContent = 'Email copied!';
+        tooltip.style.opacity = '1';
+        setTimeout(() => {
+          tooltip.textContent = original;
+          tooltip.style.opacity = '';
+        }, 1800);
+      }
+      showSnackbar('Email copied!');
     });
   });
 });
