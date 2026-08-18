@@ -1372,7 +1372,23 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   body.home .page       { padding-top: var(--space-128); }
   .content              { gap: var(--space-120); }
   .bio-main             { gap: var(--space-80); }
-  .bio-identity-group   { min-height: auto; justify-content: flex-start; gap: var(--space-160); }
+  /* Hero content itself is untouched here — justify-content stays
+     flex-start and the gap stays --space-160, so name/role/location and
+     the statement/bio block render in exactly the same places as before.
+     The only change is min-height (was `auto`): the box now stretches to
+     the bottom of the first screen (one viewport, minus the sticky nav,
+     minus the 128px top padding above the name), which purely grows the
+     empty space *below* the bio block. That's what pushes Projects past
+     the fold on short/narrow screens, where the previous natural height
+     left it visible before any scroll. dvh is paired after vh as a
+     progressive upgrade so mobile browser chrome collapsing doesn't
+     change the result mid-scroll. */
+  .bio-identity-group   {
+    min-height: calc(100vh - var(--nav-height) - var(--space-128));
+    min-height: calc(100dvh - var(--nav-height) - var(--space-128));
+    justify-content: flex-start;
+    gap: var(--space-160);
+  }
   .work-section         { gap: var(--space-32); }
   .work-main            { gap: var(--space-48); }
   .project-list         { gap: var(--space-72); }
