@@ -1256,7 +1256,20 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   border-radius: 0;
 }
 
-/* Before / After workflow box — fixed background, not theme-reactive (explicit request) */
+/* Before / After workflow box — deliberately identical in both themes: a
+   fixed dark #313131 panel with light text, so it reads the same in light
+   mode as in dark. The box background was already hardcoded (explicit
+   request); the bug was that the *text* inside still resolved through
+   --light-1 / --light-2, which flip to near-black (#0A0A0A / #525252) in
+   light mode and left dark text on the dark panel at ~1.5:1 — unreadable.
+   The html.light rules below pin the text to its dark-mode values so the
+   whole component stays put.
+
+   These have to be literal hex, not var(--light-1) / var(--light-2): inside
+   html.light scope those tokens resolve to the LIGHT values, which is
+   exactly the problem being fixed. Same documented exception pattern as
+   .btn-primary. Values mirror the :root definitions — if those change,
+   these need updating to match. */
 .cs-workflow-box {
   background: #313131;
   border-radius: 4px;
@@ -1274,6 +1287,9 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   color: var(--light-2);
   margin-top: calc(-1 * var(--space-8));
 }
+html.light .cs-workflow-line,
+html.light .cs-workflow-caption { color: #A0A0A0; } /* mirrors :root --light-2 */
+html.light .cs-workflow-flow    { color: #F2F2F2; } /* mirrors :root --light-1 */
 
 /* Impact list with bold item headings */
 .cs-impact-list {
