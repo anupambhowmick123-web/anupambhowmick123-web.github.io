@@ -424,7 +424,7 @@ body.ai-system .page { padding-top: var(--space-128); }
 }
 /* Subtitle — quiet secondary text */
 .ds-h3-muted {
-  font: var(--type-h2);
+  font: var(--type-h1);
   color: var(--light-2);
 }
 /* Body */
