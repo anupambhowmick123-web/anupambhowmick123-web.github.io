@@ -594,10 +594,68 @@ body.ai-system .page { padding-top: var(--space-128); }
   min-height: calc(100vh - var(--nav-height));
 }
 
-/* Identity block: name, role, company — 8px gap */
+/* Identity block: name block on the left, portrait pushed to the right edge.
+   row-reverse puts the portrait on the right *visually* while leaving it
+   first in source order — the same technique .project-card uses — so the
+   ≤900px column override (see RESPONSIVE) reverts to source order and
+   stacks the portrait on top with no ordering rules. */
 .bio-identity {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+}
+/* Name, role, company — 8px gap (the original .bio-identity spacing, now on
+   the inner text column since .bio-identity itself is a row) */
+.bio-identity-text {
   display: flex; flex-direction: column; gap: var(--space-8);
 }
+
+/* Portrait — two stacked frames that cross-fade on hover: SMILING is the
+   resting state, neutral shows on hover. Both frames are rendered (one at
+   opacity 0), so the hover frame is already decoded before first hover and
+   there's no flash. aspect-ratio matches the source PNGs exactly (552x452),
+   so the box reserves the right height before the art loads and nothing
+   shifts. Width is fluid — capped at 140px, scaling down to an 80px floor
+   on the narrowest phones — so the portrait never squeezes the name.
+   Artwork is theme-specific rather than filtered: the *-dark files are
+   white ink, the *-light files near-black, both on transparent, so only the
+   current theme's two files are fetched. */
+.bio-face {
+  position: relative;
+  width: clamp(80px, 18vw, 175px);
+  aspect-ratio: 552 / 452;
+  flex-shrink: 0;
+}
+.bio-face-img {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: opacity 0.2s ease;
+}
+.bio-face-on { background-image: url('images/face-smile-on-dark.png'); }
+/* The two exports aren't registered to each other: the neutral frame's
+   artwork sits 8px further LEFT inside the shared 552px canvas than the
+   smiling frame's (measured bbox centres 280 vs 288 — same artwork width,
+   a pure horizontal offset, identical in both the dark and light pairs).
+   Left unfixed, the face visibly jumps sideways on hover. Nudging the
+   neutral frame right by 8/552 of the box width (1.4493%) puts both on the
+   same axis; as a percentage it stays correct as the portrait scales with
+   the clamp() above, rather than needing a per-breakpoint pixel value. The
+   smiling frame is the resting state and is untouched, so nothing shifts on
+   page load. */
+.bio-face-off {
+  background-image: url('images/face-smile-off-dark.png');
+  opacity: 0;
+  transform: translateX(1.4493%);
+}
+html.light .bio-face-on  { background-image: url('images/face-smile-on-light.png'); }
+html.light .bio-face-off { background-image: url('images/face-smile-off-light.png'); }
+.bio-face:hover .bio-face-on  { opacity: 0; }
+.bio-face:hover .bio-face-off { opacity: 1; }
 
 /* Location line — mapped to body text token. No longer a link (was an
    external link to Xoxoday; now a static "Based in [city]" line), so no
@@ -1388,6 +1446,10 @@ html.light .cs-workflow-flow    { color: #F2F2F2; } /* mirrors :root --light-1 *
   body.home .page       { padding-top: var(--space-128); }
   .content              { gap: var(--space-120); }
   .bio-main             { gap: var(--space-80); }
+  /* Portrait stacks above the name here, left-aligned. Source order is
+     already portrait-first, so switching to a column is all that's needed —
+     no ordering rules. */
+  .bio-identity         { flex-direction: column; align-items: flex-start; gap: var(--space-16); }
   /* Hero content itself is untouched here — justify-content stays
      flex-start and the gap stays --space-160, so name/role/location and
      the statement/bio block render in exactly the same places as before.
