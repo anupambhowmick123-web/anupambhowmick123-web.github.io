@@ -14,6 +14,25 @@ if (loadingScreen) {
   }, 3000);
 }
 
+// ── Portrait tap-to-swap (touch devices only) ─────────────
+// Touch screens have no :hover, so the smile swap would never trigger there.
+// Tapping shows the neutral frame briefly, then it returns to smiling.
+// Gated on (hover: none) so pointer devices keep the CSS :hover behaviour
+// and never get both mechanisms firing at once. No-op on pages without the
+// portrait (every page except the homepage).
+(function () {
+  const face = document.querySelector('.bio-face');
+  if (!face) return;
+  if (!window.matchMedia('(hover: none)').matches) return;
+
+  let resetTimer;
+  face.addEventListener('click', () => {
+    face.classList.add('is-tapped');
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => face.classList.remove('is-tapped'), 1600);
+  });
+})();
+
 // ── Email copy to clipboard ───────────────────────────────
 let snackbarTimer;
 function showSnackbar(message) {

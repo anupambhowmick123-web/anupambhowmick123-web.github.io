@@ -636,7 +636,18 @@ body.ai-system .page { padding-top: var(--space-128); }
   background-size: contain;
   transition: opacity 0.2s ease;
 }
-.bio-face-on { background-image: url('images/face-smile-on-dark.png'); }
+/* Vertical optical centring: the drawn ink occupies Y 35..451 of the 452px
+   canvas — ~35px of empty space above the head, none below (the shoulders
+   run off the bottom edge). So the ink's centre sits ~17px lower than the
+   box's geometric centre, and the face reads as sitting low next to the
+   name even though .bio-identity's align-items: center lines the *boxes*
+   up correctly. Lifting both frames by 17/452 of the box height (3.761%)
+   centres the visible artwork instead of the empty canvas. As a percentage
+   it holds at every size the clamp() produces. */
+.bio-face-on {
+  background-image: url('images/face-smile-on-dark.png');
+  transform: translateY(-3.761%);
+}
 /* The two exports aren't registered to each other: the neutral frame's
    artwork sits 8px further LEFT inside the shared 552px canvas than the
    smiling frame's (measured bbox centres 280 vs 288 — same artwork width,
@@ -645,17 +656,27 @@ body.ai-system .page { padding-top: var(--space-128); }
    neutral frame right by 8/552 of the box width (1.4493%) puts both on the
    same axis; as a percentage it stays correct as the portrait scales with
    the clamp() above, rather than needing a per-breakpoint pixel value. The
-   smiling frame is the resting state and is untouched, so nothing shifts on
-   page load. */
+   vertical component is the same optical-centring lift described above. */
 .bio-face-off {
   background-image: url('images/face-smile-off-dark.png');
   opacity: 0;
-  transform: translateX(1.4493%);
+  transform: translate(1.4493%, -3.761%);
 }
 html.light .bio-face-on  { background-image: url('images/face-smile-on-light.png'); }
 html.light .bio-face-off { background-image: url('images/face-smile-off-light.png'); }
-.bio-face:hover .bio-face-on  { opacity: 0; }
-.bio-face:hover .bio-face-off { opacity: 1; }
+
+/* Hover swap — gated to devices that actually hover, so touch screens don't
+   get a "stuck" hover state lingering after a tap and fighting the
+   tap-triggered class below. */
+@media (hover: hover) {
+  .bio-face:hover .bio-face-on  { opacity: 0; }
+  .bio-face:hover .bio-face-off { opacity: 1; }
+}
+/* Touch equivalent — tapping the portrait adds .is-tapped for ~1.6s (see
+   script.js), briefly showing the neutral frame before it returns to
+   smiling, since :hover isn't available there. */
+.bio-face.is-tapped .bio-face-on  { opacity: 0; }
+.bio-face.is-tapped .bio-face-off { opacity: 1; }
 
 /* Location line — mapped to body text token. No longer a link (was an
    external link to Xoxoday; now a static "Based in [city]" line), so no
