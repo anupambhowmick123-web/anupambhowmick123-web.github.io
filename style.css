@@ -1380,12 +1380,25 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
      minus the 128px top padding above the name), which purely grows the
      empty space *below* the bio block. That's what pushes Projects past
      the fold on short/narrow screens, where the previous natural height
-     left it visible before any scroll. dvh is paired after vh as a
-     progressive upgrade so mobile browser chrome collapsing doesn't
-     change the result mid-scroll. */
+     left it visible before any scroll.
+
+     The unit here must be `lvh`, NOT `dvh`. `dvh` is the *dynamic* viewport
+     height: it is defined to track the viewport as mobile browser chrome
+     shows and hides, so it grows by ~60-100px in real time while the
+     address bar collapses during scroll. That made this box resize
+     mid-scroll and dragged the whole Projects section up and down with the
+     address-bar animation — a visible drift, and the reason this rule is
+     being corrected. `lvh` (large viewport height, i.e. chrome hidden) is
+     a *stable* value that never changes during scroll, so the layout below
+     stays put. `lvh` rather than `svh` because it's the larger of the two
+     stable units: the box is then at least as tall as the viewport in both
+     the chrome-visible and chrome-hidden states, so Projects stays below
+     the fold either way. `svh` would size to the chrome-visible viewport
+     and let Projects peek in once the address bar hides. The `vh` line
+     before it is the fallback for browsers without the newer units. */
   .bio-identity-group   {
     min-height: calc(100vh - var(--nav-height) - var(--space-128));
-    min-height: calc(100dvh - var(--nav-height) - var(--space-128));
+    min-height: calc(100lvh - var(--nav-height) - var(--space-128));
     justify-content: flex-start;
     gap: var(--space-160);
   }
