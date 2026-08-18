@@ -624,9 +624,21 @@ body.ai-system .page { padding-top: var(--space-128); }
    current theme's two files are fetched. */
 .bio-face {
   position: relative;
-  width: clamp(80px, 18vw, 175px);
+  width: clamp(96px, 20vw, 175px);
   aspect-ratio: 552 / 452;
   flex-shrink: 0;
+  /* Mobile browsers paint a translucent box over an element when tapped —
+     iOS Safari's default is roughly rgba(0,0,0,0.18), i.e. a *dark* one.
+     On the dark page background that's invisible, but in light mode it
+     flashes as a visible grey rectangle over the portrait on every tap
+     (which is also why the tap-to-swap interaction made it noticeable).
+     Suppressing it keeps the swap clean in both themes. user-select and
+     touch-action stop the long-press text-selection/callout on what is a
+     purely decorative, non-text element. */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 .bio-face-img {
   position: absolute;
