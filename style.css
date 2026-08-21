@@ -22,6 +22,14 @@
   --nav-height:         48px;
   --font: 'Sora', sans-serif;
 
+  /* Success green — copy-confirmation tick only. This token INVERTS with
+     the theme rather than following it: the tooltip and snackbar surfaces
+     are painted with --light-1, so in dark mode the tick sits on a
+     near-white chip and needs the dark green, and in light mode it sits on
+     a near-black chip and needs the bright one. Both are checked against
+     their own surface, not against the page background. */
+  --success: #1A7F37;
+
   /* ── Type scale — role-named tokens, applied as `font: var(--type-x);` ──
      Color stays separate per class. Responsive steps redefine these same
      custom properties inside the ≤720px / ≤480px blocks in RESPONSIVE.
@@ -34,6 +42,7 @@
   --type-h2:       600 20px/1.4  var(--font); /* subsection headings */
   --type-subtitle: 400 14px/1.5  var(--font); /* quiet secondary/intro text */
   --type-h3:       600 16px/1.75 var(--font); /* card titles, small emphasis headings */
+  --type-h3-tight: 600 16px/1.4  var(--font); /* same as h3, tightened for titles stacked directly above sub-lines (Experience rows) */
   --type-body:     400 16px/1.6  var(--font); /* paragraphs, descriptions, list items */
   --type-caption:  400 12px/1.4  var(--font); /* tags, captions, meta text */
   --type-nav:      600 14px/1.4  var(--font); /* nav links, buttons, small UI links */
@@ -70,6 +79,23 @@
   --space-160: 160px;
   --space-200: 200px;
   --space-280: 280px;
+
+  /* ── Radius scale ────────────────────────────────────────────────
+     Named from the values already in use across this file, so these are
+     aliases rather than new decisions. `0` stays a literal; the single
+     3px on .tab-btn is an outlier and is left as-is. */
+  --radius-xs:  2px;  /* images inside case-study panels */
+  --radius-sm:  4px;  /* panels, modals, default buttons */
+  --radius-md:  8px;  /* tags, chips, outline buttons, snackbar */
+  --radius-lg: 12px;  /* project cards, thumbnails */
+
+  /* ── Icon sizes ──────────────────────────────────────────────────
+     Every inline SVG and logo <img> resolves to one of these. The
+     Experience logo is its own token because it restates per breakpoint,
+     the same way the --type-* tokens do. */
+  --icon-sm:   16px;  /* inline arrows, button icons, footer mark */
+  --icon-md:   20px;  /* nav icons, tool-stack logos */
+  --exp-logo:  56px;  /* company logo in an Experience row */
 }
 
 /* ── Light mode overrides ────────────────────────────────── */
@@ -85,6 +111,7 @@ html.light {
   --light-2:      #525252;
   --light-3:      #5A5A5A;
   --surface-tint:      rgba(0,0,0,0.04);
+  --success: #3FB950; /* inverted — see the :root note */
 }
 
 html.light .btn-primary       { background: #000000; color: #F2F2F2; border-color: #000000; }
@@ -300,11 +327,13 @@ html.light .site-nav::before {
 .nav-left  { display: flex; gap: var(--space-40); align-items: center; }
 .nav-right { display: flex; gap: var(--space-24); align-items: center; }
 
+/* No underline — the nav reads as chrome, not body links, and since the
+   email became icon-only an underlined "Projects/Resume" pair next to a
+   bare icon looked inconsistent. Hover is carried by color alone. */
 .nav-link {
   font: var(--type-nav);
   color: var(--light-2);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
   opacity: 0.9;
   transition: color 0.15s ease, opacity 0.15s ease;
   cursor: pointer;
@@ -314,6 +343,22 @@ html.light .site-nav::before {
   padding: 0;
 }
 .nav-link:hover { color: var(--light-1); opacity: 1; }
+
+/* Icon-only nav button (email). */
+.nav-icon-link {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--icon-md); height: var(--icon-md);
+  flex-shrink: 0;
+}
+.nav-icon-link svg { display: block; width: var(--icon-md); height: var(--icon-md); }
+/* Same invisible 32×32 tap target the theme toggle uses — the visual stays
+   20×20 and layout is unaffected, but the thumb gets something to hit. */
+.nav-icon-link::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+}
 
 /* ── Theme Toggle (inside nav) ───────────────────────────── */
 .theme-toggle {
@@ -361,19 +406,27 @@ html.light .theme-toggle .icon-moon { display: block; }
    now centers its own content within the viewport below the sticky nav,
    so a fixed offset here would push the hero past a full 100vh. */
 body.home .page { padding-top: 0; }
+/* .content has exactly two children on the homepage (.bio-main and the
+   footer row), so this gap is only ever the CTA-to-footer distance.
+   Pulled in from the base 200px — the closing CTA is already a full stop,
+   so the old gap left the footer stranded. Restated in the ≤600px block
+   below, since this selector outranks the plain `.content` rules there. */
+body.home .content { gap: var(--space-96); }
 
 /* Payments — 128px top padding, 92px between sections, 124px to footer */
 body.payments .page { padding-top: var(--space-128); }
-body.payments .project-main { gap: var(--space-92); }
-body.payments .content { gap: var(--space-124); }
+body.payments .project-main { --pm-gap: var(--space-92); }
+/* The closing CTA now sits at the end of .project-main on every case study,
+   so this gap is CTA-to-footer, same as on the homepage — matched to it. */
+body.payments .content { gap: var(--space-96); }
 /* Match Figma: paragraph → bullet list spacing equals paragraph → paragraph (24px) */
 body.payments .cs-body p + ul,
 body.payments .cs-body p + ol { margin-top: var(--space-24); }
 
 /* Onboarding — same outer rhythm as Payments, 72px between Solution subsections */
 body.onboarding .page { padding-top: var(--space-128); }
-body.onboarding .project-main { gap: var(--space-92); }
-body.onboarding .content { gap: var(--space-124); }
+body.onboarding .project-main { --pm-gap: var(--space-92); }
+body.onboarding .content { gap: var(--space-96); }
 body.onboarding .cs-subsections { gap: var(--space-72); }
 body.onboarding .project-section > .cs-subsections { margin-top: 0; }
 /* Match Figma cs-body rhythm: 20px between paragraph blocks, 8px between list items */
@@ -389,6 +442,8 @@ body.onboarding .cs-body ol { gap: var(--space-8); }
    generic 80px .page padding-top instead of matching Payments/Onboarding's
    128px starting spacing above the hero title. Fixed to match. */
 body.ai-system .page { padding-top: var(--space-128); }
+/* Same CTA-to-footer gap as the other case studies and the homepage. */
+body.ai-system .content { gap: var(--space-96); }
 
 .content {
   width: 680px;
@@ -498,14 +553,14 @@ body.ai-system .page { padding-top: var(--space-128); }
   align-items: center;
   gap: var(--space-12);
   padding: var(--space-12) var(--space-20);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font: var(--type-nav);
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.btn svg { flex-shrink: 0; width: 20px; height: 20px; }
+.btn svg { flex-shrink: 0; width: var(--icon-md); height: var(--icon-md); }
 
 .btn-primary {
   background: var(--dark-2);
@@ -520,6 +575,51 @@ body.ai-system .page { padding-top: var(--space-128); }
   color: var(--light-2);
 }
 .btn-secondary:hover { border-color: var(--dark-4); }
+
+/* Homepage CTA pair. .btn-outline is the primary action (bordered);
+   .btn-ghost is the secondary one and carries no border — it keeps a
+   transparent 1px border purely so both buttons compute to the same
+   height and sit on a shared baseline. */
+.btn-outline,
+.btn-ghost {
+  background: transparent;
+  border-radius: var(--radius-md);
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-16);
+}
+/* .btn svg forces --icon-md; CTA icons are drawn one step smaller. */
+.btn-outline svg,
+.btn-ghost svg {
+  width: var(--icon-sm); height: var(--icon-sm);
+  display: block;
+}
+
+/* Icon/label alignment. --type-nav carries a 1.4 line-height, so the text
+   flex item is 19.6px tall around 14px of type — and that leading is not
+   distributed evenly around the letterforms, it mostly sits below the
+   baseline. `align-items: center` centres those two *boxes*, which leaves
+   the icon looking like it sits low against the text it's next to.
+   Collapsing line-height to 1 makes the text item match its own em box, so
+   centring now aligns icon to letterform. Button height drops ~6px as a
+   result, which the 12px vertical padding absorbs. */
+.btn-outline,
+.btn-ghost { line-height: 1; }
+
+/* Unlike .btn-secondary the border uses --dark-4, so it stays visible
+   against --dark-1 in dark mode. Radius matches .tool-chip. */
+.btn-outline {
+  border: 1px solid var(--dark-4);
+  color: var(--light-1);
+}
+/* Fill only — the border deliberately holds still on hover. Brightening
+   it as well read as two competing signals for one state change. */
+.btn-outline:hover { background: var(--surface-tint); }
+
+.btn-ghost {
+  border: 1px solid transparent;
+  color: var(--light-1);
+}
+.btn-ghost:hover { background: var(--surface-tint); }
 
 /* ══════════════════════════════════════════════════════════
    TABS  (work.html)
@@ -572,6 +672,25 @@ body.ai-system .page { padding-top: var(--space-128); }
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
+}
+
+/* "Built with Claude Code." — mark + label, right side of the footer row.
+   The source export is a 256px square whose artwork only occupies y 53–213,
+   i.e. it is padded asymmetrically (53px above, 42px below) inside mostly
+   empty space. Drawn into a square 16×16 box that put the mark visibly low
+   against the text. The SVG's viewBox is now cropped to the ink, so the
+   element's own box *is* the artwork and `align-items: center` lines it up
+   exactly. Height follows from the cropped aspect — don't pin it square
+   again. line-height:1 for the same reason as the CTA buttons: it stops
+   --type-caption's leading from dragging the centre off the letterforms. */
+.footer-built {
+  display: inline-flex; align-items: center; gap: var(--space-8);
+  line-height: 1;
+}
+.footer-built img {
+  width: var(--icon-sm); height: auto;
+  flex-shrink: 0;
+  display: block;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -727,9 +846,13 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
   color: var(--light-1);
 }
 
-/* Section: heading + content — gap 32px (matches Figma) */
+/* Section: heading + content. Single shared gap, so "Experience" and
+   "Tool Stack" sit the same distance above their own content by
+   construction rather than by two values being kept in step by hand.
+   Opened up from 32px. (.cta-section overrides this to 24px — its heading
+   is followed by a subtitle, not directly by content.) */
 .bio-section {
-  display: flex; flex-direction: column; gap: var(--space-32);
+  display: flex; flex-direction: column; gap: var(--space-40);
 }
 
 /* Work at Xoxoday — flat flex column, gap 44px between all items */
@@ -798,7 +921,7 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
   align-items: stretch;
   background: transparent;
   border: 1px solid var(--dark-4);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   text-decoration: none;
   color: inherit;
@@ -806,7 +929,7 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
 .project-card:focus-visible {
   outline: 2px solid var(--light-1);
   outline-offset: 4px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
 }
 
 .project-card-thumb {
@@ -876,35 +999,140 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
   font: var(--type-caption);
   font-weight: 500;
   padding: var(--space-8) var(--space-16);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   white-space: nowrap;
 }
 
-/* Experience — simple stacked entries.
-   Original 22px gap snapped to nearest 4px step: 24px (+2px). */
+/* ══════════════════════════════════════════════════════════
+   EXPERIENCE  (index.html)
+══════════════════════════════════════════════════════════ */
+
+/* Each entry is a link out to the product: logo · (company / role / tags)
+   · date, with the date pinned to the right edge of the 680px column.
+   The three text lines carry their own leading and sit flush (gap 0) so
+   the block reads as one unit against the --exp-logo tile beside it. */
 .exp-entries {
-  display: flex; flex-direction: column; gap: var(--space-24);
+  display: flex; flex-direction: column; gap: var(--space-40);
 }
 .exp-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-20);
+  text-decoration: none;
+  color: inherit;
+}
+/* No border-radius here — the Figma export already bakes a rounded tile
+   into the artwork, so an extra radius would only clip it. */
+.exp-logo {
+  width: var(--exp-logo); height: var(--exp-logo);
+  flex-shrink: 0;
+  display: block;
+}
+.exp-body {
   display: flex; flex-direction: column; gap: 0;
+  flex: 1;
+  min-width: 0;
+}
+.exp-company {
+  display: inline-flex; align-items: center; gap: var(--space-4);
+  font: var(--type-h3-tight);
+  color: var(--light-1);
+}
+.exp-role {
+  font: var(--type-subtitle);
+  color: var(--light-2);
+}
+.exp-tags {
+  font: var(--type-caption);
+  color: var(--light-3);
 }
 .exp-date {
   font: var(--type-caption);
   color: var(--light-2);
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-align: right;
+  /* Optically centres the 12px date on the 16px company line */
+  padding-top: var(--space-4);
 }
-.exp-title {
-  font: var(--type-h3);
+
+/* Shared external-link arrow — also used by the LinkedIn CTA button.
+   Sized one step up from the original 12px, to --icon-sm. Dimmed via the
+   --light-3 token rather than an opacity value, so it stays on-palette. */
+.exp-arrow {
+  width: var(--icon-sm); height: var(--icon-sm);
+  flex-shrink: 0;
+  color: var(--light-3);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.exp-entry:hover .exp-company { text-decoration: underline; text-underline-offset: 2px; }
+.exp-entry:hover .exp-arrow,
+.btn:hover .exp-arrow { color: var(--light-1); transform: translate(1px, -1px); }
+
+/* ══════════════════════════════════════════════════════════
+   TOOL STACK  (index.html)
+══════════════════════════════════════════════════════════ */
+
+/* Logo tiles are Figma exports carrying their own opaque rounded
+   background, so one file serves both themes — no light/dark variants. */
+.tool-stack {
+  display: flex; flex-wrap: wrap;
+  gap: var(--space-12);
+}
+.tool-chip {
+  display: inline-flex; align-items: center; gap: var(--space-8);
+  padding: var(--space-8) var(--space-12);
+  background: transparent;
+  border: 1px solid var(--dark-4);
+  border-radius: var(--radius-md);
+  font: var(--type-caption);
+  font-weight: 500;
   color: var(--light-1);
+  white-space: nowrap;
+}
+.tool-chip img {
+  width: var(--icon-md); height: var(--icon-md);
+  flex-shrink: 0;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CLOSING CTA  (index.html)
+══════════════════════════════════════════════════════════ */
+
+/* Tighter than the 32px .bio-section default — heading and its one-line
+   subtitle read as a pair, then 24px down to the buttons. */
+.cta-section { gap: var(--space-24); }
+.cta-text {
+  display: flex; flex-direction: column; gap: var(--space-4);
+}
+.cta-sub {
+  font: var(--type-subtitle);
+  color: var(--light-2);
 }
 
 /* ══════════════════════════════════════════════════════════
    PROJECT CASE STUDY PAGES
 ══════════════════════════════════════════════════════════ */
 
+/* The section gap is routed through --pm-gap rather than set on `gap`
+   directly, so the closing CTA below can subtract it back out and land on
+   one fixed distance from "More Projects" regardless of which page it's on
+   (see .project-main > .cta-section). Page variants and breakpoints
+   redefine --pm-gap, never `gap`. */
 .project-main {
-  display: flex; flex-direction: column; gap: var(--space-72);
+  --pm-gap: var(--space-72);
+  display: flex; flex-direction: column; gap: var(--pm-gap);
   width: 100%;
 }
+
+/* "More Projects" → closing CTA. The CTA is an ask rather than more
+   content, so it gets more air than the section rhythm gives. The three
+   case studies don't share a base gap (72px on ai-system, 92px on the
+   other two), so a plain margin would land on three different distances —
+   subtracting --pm-gap makes the total land on 132px everywhere, matching
+   the homepage's own section-to-CTA distance. */
+.project-main > .cta-section { margin-top: calc(var(--space-132) - var(--pm-gap)); }
 
 /* Hero */
 .project-hero {
@@ -983,7 +1211,7 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
   height: 440px;
   background: var(--surface-tint);
   border: 1px dashed var(--light-3);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1015,7 +1243,7 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
   background: var(--workflow-bg);
   padding: var(--space-28);
   display: flex; flex-direction: column; gap: var(--space-12);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 .before-after-item {
   display: flex; flex-direction: column; gap: var(--space-8);
@@ -1027,10 +1255,14 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
 }
 
 /* Divider */
+/* --dark-4, matching every other rule/border on the site (.ds-footer-row's
+   top border, .project-card, .tool-chip, .project-card-tag, the tab bar).
+   This was on --light-3, which is a *text* token — caption grey — so the
+   divider rendered far brighter than the footer rule it sits above. */
 .section-divider {
   width: 100%;
   border: none;
-  border-top: 1px solid var(--light-3);
+  border-top: 1px solid var(--dark-4);
   margin: 0;
 }
 
@@ -1083,7 +1315,7 @@ html.light .bio-face-off { background-image: url('images/face-smile-off-light.pn
   background: var(--media-bg);
   position: relative;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 .video-placeholder-label {
   font-family: var(--font);
@@ -1096,27 +1328,60 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 /* ══════════════════════════════════════════════════════════
    404 PAGE
 ══════════════════════════════════════════════════════════ */
+/* Column: content area on top, footer row pinned to the bottom.
+   min-height subtracts the nav — .site-nav is sticky, so it occupies 48px
+   of normal flow, and a full 100vh here forced a scrollbar onto a page
+   that has nothing to scroll. Horizontal padding matches .page so the
+   footer row sits on the same 680px column as every other page. */
 .page-404 {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--nav-height));
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-40) var(--space-20);
+  flex-direction: column;
+  padding: var(--space-40) max(var(--space-20), calc((100% - 680px) / 2)) var(--space-48);
   position: relative;
   z-index: 1;
 }
+/* flex:1 pushes the footer down. The bottom padding lifts the block above
+   true centre — with something anchored at the bottom of the screen, dead
+   centre reads low. */
+.page-404-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: var(--space-96);
+}
+/* 600px so "The page you're looking for doesn't exist or has been moved."
+   sets on one line (it measures ~500px at --type-body). Children are
+   centred, not stretched, so each line still shrinks to its own content —
+   the cap only decides where wrapping starts, and narrow viewports wrap
+   normally. Was 480px, which forced that sentence onto two lines. */
 .page-404-inner {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: var(--space-24);
+  gap: var(--space-32);
   align-items: center;
-  max-width: 480px;
+  max-width: 600px;
+}
+/* Code + heading + line read as one block, then 32px down to the buttons. */
+.page-404-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-12);
 }
 .page-404-code {
+  /* Tracking is held in a variable so the optical correction below stays
+     tied to it. letter-spacing is applied after the LAST character as well,
+     so the text box is 4px narrower on the right than the digits actually
+     are — centring the box then pushes "404" ~2px right of the two lines
+     under it. Giving the right side those 4px back re-centres the ink. */
+  --tracking: -4px;
   font: var(--type-code);
   color: var(--light-3);
-  letter-spacing: -4px;
+  letter-spacing: var(--tracking);
+  margin-right: calc(-1 * var(--tracking));
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1132,7 +1397,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 /* Hero image panel — overlapping screenshots */
 .cs-hero-panel {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   height: 260px;
   overflow: hidden;
   position: relative;
@@ -1220,7 +1485,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
    Original 30px padding snapped to nearest 4px step: 32px (+2px). */
 .cs-flow-box {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   padding: var(--space-32) 0;
   display: flex;
   align-items: center;
@@ -1247,7 +1512,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
    Original 10px row-gap snapped to nearest 4px step: 12px (+2px). */
 .cs-ds-grid {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   padding: var(--space-16);
   display: grid;
   grid-template-columns: 37% 1fr;
@@ -1262,12 +1527,12 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 }
 .cs-ds-left img {
   flex: 1; width: 100%; min-height: 0;
-  object-fit: cover; border-radius: 2px; display: block;
+  object-fit: cover; border-radius: var(--radius-xs); display: block;
 }
 /* Original 5px gap snapped to nearest 4px step: 4px (−1px). */
 .cs-ds-right-cell { display: flex; flex-direction: column; gap: var(--space-4); }
 .cs-ds-right-cell img {
-  width: 100%; object-fit: cover; border-radius: 2px; display: block;
+  width: 100%; object-fit: cover; border-radius: var(--radius-xs); display: block;
 }
 .cs-ds-label {
   font-size: 8px; line-height: 12px;
@@ -1278,7 +1543,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 /* Side-by-side image panel */
 .cs-panel-duo {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   display: flex;
   gap: var(--space-12);
@@ -1287,13 +1552,13 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 }
 .cs-panel-duo img {
   flex: 1; object-fit: cover; object-position: top left;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
 }
 
 /* 3-image panel */
 .cs-panel-trio {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   display: flex;
   gap: var(--space-8);
@@ -1302,13 +1567,13 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 }
 .cs-panel-trio img {
   flex: 1; object-fit: cover; object-position: top left;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
 }
 
 /* Single-image panel */
 .cs-panel-solo {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   padding: var(--space-12);
   height: 260px;
@@ -1316,13 +1581,13 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
 .cs-panel-solo img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: top left;
-  border-radius: 2px; display: block;
+  border-radius: var(--radius-xs); display: block;
 }
 
 /* Key Moment — left narrow col + right wide col */
 .cs-panel-key {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   display: flex;
   gap: var(--space-12);
@@ -1330,14 +1595,14 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
   height: 284px;
 }
 .cs-panel-key-left { width: 120px; flex-shrink: 0; }
-.cs-panel-key-left img { width: 100%; height: 100%; object-fit: cover; object-position: top left; border-radius: 2px; }
+.cs-panel-key-left img { width: 100%; height: 100%; object-fit: cover; object-position: top left; border-radius: var(--radius-xs); }
 .cs-panel-key-right { flex: 1; }
-.cs-panel-key-right img { width: 100%; height: 100%; object-fit: cover; object-position: top left; border-radius: 2px; }
+.cs-panel-key-right img { width: 100%; height: 100%; object-fit: cover; object-position: top left; border-radius: var(--radius-xs); }
 
 /* Full-height image panel — shows full image at natural aspect ratio */
 .cs-panel-full {
   background: var(--dark-2);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 .cs-panel-full img {
@@ -1363,7 +1628,7 @@ html.light .video-placeholder-label { color: rgba(0,0,0,0.3); }
    these need updating to match. */
 .cs-workflow-box {
   background: #313131;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   padding: var(--space-28) var(--space-44);
   display: flex; flex-direction: column; gap: var(--space-16);
 }
@@ -1415,16 +1680,36 @@ html.light .cs-workflow-flow    { color: #F2F2F2; } /* mirrors :root --light-1 *
   color: var(--dark-1);
   font: var(--type-caption);
   padding: var(--space-8) var(--space-12);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
 }
 .email-tooltip-wrapper:hover .email-tooltip { opacity: 1; }
-/* Touch devices have no hover; hide the tooltip entirely so it can't overflow */
+
+/* Copy-confirmation state — tick + label, applied by script.js on click.
+   Only set on the .has-tick variant so the resting tooltip keeps its plain
+   text layout. */
+.email-tooltip.has-tick,
+.snackbar.has-tick {
+  align-items: center;
+  gap: var(--space-8);
+}
+.email-tooltip.has-tick { display: inline-flex; }
+.copy-tick {
+  width: var(--icon-sm); height: var(--icon-sm);
+  flex-shrink: 0;
+  color: var(--success);
+}
+
+/* Touch devices have no hover; hide the tooltip entirely so it can't
+   overflow. .has-tick has to be named explicitly here — it carries a
+   `display` of its own and would otherwise outrank this rule and pop the
+   tooltip open on tap, doubling up with the snackbar. */
 @media (hover: none) {
-  .email-tooltip { display: none; }
+  .email-tooltip,
+  .email-tooltip.has-tick { display: none; }
 }
 
 /* Snackbar — mobile-only copy confirmation, since the hover tooltip above
@@ -1439,15 +1724,19 @@ html.light .cs-workflow-flow    { color: #F2F2F2; } /* mirrors :root --light-1 *
   color: var(--dark-1);
   font: var(--type-caption);
   padding: var(--space-12) var(--space-20);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 999;
 }
+/* display:none on .snackbar is what keeps it off desktop, so the .has-tick
+   display swap has to live inside this block — declaring it at base would
+   reveal the snackbar on hover-capable devices. */
 @media (hover: none) {
   .snackbar { display: block; }
+  .snackbar.has-tick { display: inline-flex; }
   .snackbar.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
@@ -1516,7 +1805,7 @@ html.light .cs-workflow-flow    { color: #F2F2F2; } /* mirrors :root --light-1 *
   .work-section         { gap: var(--space-32); }
   .work-main            { gap: var(--space-48); }
   .project-list         { gap: var(--space-72); }
-  .project-main         { gap: var(--space-52); }
+  .project-main         { --pm-gap: var(--space-52); }
   .project-img-placeholder { height: 280px; }
   .work-focus-row       { flex-direction: column; gap: var(--space-8); }
   .work-focus-label     { width: 100%; }
@@ -1544,22 +1833,66 @@ html.light .cs-workflow-flow    { color: #F2F2F2; } /* mirrors :root --light-1 *
 @media (max-width: 600px) {
   .site-nav             { height: auto; min-height: 44px; }
   .nav-left             { gap: var(--space-24); }
-  .nav-right            { gap: var(--space-16); }
+  /* Both nav-right items carry a 32×32 invisible tap target (each bleeding
+     6px past its 20px visual), so a 16px gap left only 4px of dead space
+     between two adjacent hit areas — easy to mis-tap with a thumb. At 32px
+     the targets sit 20px apart. */
+  .nav-right            { gap: var(--space-32); }
   .page                 { padding-top: var(--space-48); padding-bottom: var(--space-80); }
   .content              { gap: var(--space-80); }
   .bio-main             { gap: var(--space-60); }
   .bio-identity-group   { gap: var(--space-96); }
-  .bio-section          { gap: var(--space-24); }
+  .bio-section          { gap: var(--space-32); }  /* steps down from 40, as 24 did from 32 */
   .work-section         { gap: var(--space-24); }
   .project-card-content { gap: var(--space-16); padding: var(--space-24); }
   .project-img-placeholder { height: 200px; }
-  .project-main     { gap: var(--space-40); }
+  .project-main     { --pm-gap: var(--space-40); }
+  /* Same subtract-the-gap trick as at base, retargeted to 96px — 132px of
+     dead space reads as a broken page on a phone. */
+  .project-main > .cta-section { margin-top: calc(var(--space-96) - var(--pm-gap)); }
   .ds-link-row      { gap: var(--space-16); }
   .ds-footer-row    { flex-direction: column; gap: var(--space-20); }
+
+  /* Experience — the right-pinned date has nowhere to go on a narrow
+     column, so switch to a 2-col grid and drop it onto a second row
+     under the text block, still aligned to the text (not the logo). */
+  /* Logo steps down with the type scale — one token, both dimensions
+     and the grid column stay in sync. */
+  :root { --exp-logo: 48px; }
+
+  .exp-entries { gap: var(--space-32); }
+  .exp-entry {
+    display: grid;
+    grid-template-columns: var(--exp-logo) 1fr;
+    column-gap: var(--space-16);
+    row-gap: var(--space-8);
+    align-items: start;
+  }
+  .exp-logo { grid-area: 1 / 1; }
+  .exp-body { grid-area: 1 / 2; }
+  .exp-date { grid-area: 2 / 2; text-align: left; padding-top: 0; }
+
+  .tool-stack { gap: var(--space-8); }
+
+  /* Restated because these page-variant selectors (0,1,1) outrank the plain
+     `.content` gap rules in these breakpoint blocks. */
+  body.home .content,
+  body.payments .content,
+  body.onboarding .content,
+  body.ai-system .content { gap: var(--space-60); }
+
+  /* The two CTAs stay side by side at their natural widths — together they
+     come to ~265px, which clears the ~280px of content available at a
+     320px viewport. .btn-row keeps its flex-wrap, so anything narrower
+     than that still drops LinkedIn onto its own line rather than
+     overflowing. Gap tightened from 16px to buy the margin. */
+  .cta-section .btn-row { gap: var(--space-12); }
   .project-list     { gap: var(--space-48); }
   .video-placeholder { height: 200px; }
   .before-after-block { padding: var(--space-20); }
-  .page-404-code    { font-size: 56px; }
+  /* Tracking scales with the type (-4px at 80px → -3px at 56px); the
+     margin correction follows from the variable automatically. */
+  .page-404-code    { font-size: 56px; --tracking: -3px; }
 }
 
 @media (max-width: 480px) {

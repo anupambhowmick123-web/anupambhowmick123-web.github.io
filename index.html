@@ -57,8 +57,13 @@
       <button class="nav-link" id="resume-trigger">Resume</button>
     </div>
     <div class="nav-right">
+      <!-- Email — icon-only now that the full "Get in Touch" CTA lives in the
+           closing section. Still copies the address on click; the label moves
+           to aria-label so the button keeps an accessible name. -->
       <div class="email-tooltip-wrapper">
-        <button class="nav-link email-copy">Get in Touch</button>
+        <button class="nav-link nav-icon-link email-copy" aria-label="Copy email address">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.25" y="3" width="13.5" height="10" rx="2.25" stroke="currentColor" stroke-width="1.3"/><path d="M2.2 4.7l4.85 3.55a1.6 1.6 0 0 0 1.9 0L13.8 4.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
         <span class="email-tooltip">anupambhowmick123@gmail.com</span>
       </div>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">
@@ -179,32 +184,97 @@
           </a>
         </div>
 
-        <!-- ── Experience ── -->
+        <!-- ── Experience ──
+             Each entry is a link out to the product it covers: company logo,
+             then company / role / domain tags, with the date pushed to the
+             far right on desktop and folded under the company on mobile. -->
         <div class="bio-section">
           <p class="ds-h2">Experience</p>
           <div class="exp-entries">
-            <div class="exp-entry">
-              <span class="exp-date">Jan 2019 – Present</span>
-              <span class="exp-title">Senior Product Designer - Xoxoday</span>
-            </div>
-            <div class="exp-entry">
-              <span class="exp-date">Jun 2017 – Dec 2018</span>
-              <span class="exp-title">UX/UI Designer - Gapoon</span>
-            </div>
-            <div class="exp-entry">
-              <span class="exp-date">Mar 2017 – Jun 2017</span>
-              <span class="exp-title">UX/UI Designer - Algebra Analytics</span>
-            </div>
+
+            <a class="exp-entry" href="https://www.xoxoday.com/plum" target="_blank" rel="noopener">
+              <img class="exp-logo" src="assets/logos/xoxoday.svg" alt="" width="56" height="56" />
+              <div class="exp-body">
+                <span class="exp-company">
+                  Xoxoday Plum
+                  <svg class="exp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M6 4.5h5.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="exp-role">Senior Product Designer</span>
+                <span class="exp-tags">Rewards · Loyalty · Marketplace</span>
+              </div>
+              <span class="exp-date">2021 – Present</span>
+            </a>
+
+            <a class="exp-entry" href="https://www.xoxoday.com/empuls" target="_blank" rel="noopener">
+              <img class="exp-logo" src="assets/logos/xoxoday.svg" alt="" width="56" height="56" />
+              <div class="exp-body">
+                <span class="exp-company">
+                  Xoxoday Empuls
+                  <svg class="exp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M6 4.5h5.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="exp-role">Product Designer</span>
+                <span class="exp-tags">Employee Engagement · Recognition</span>
+              </div>
+              <span class="exp-date">2019 – 2021</span>
+            </a>
+
+            <a class="exp-entry" href="https://www.dusminute.com/" target="_blank" rel="noopener">
+              <img class="exp-logo" src="assets/logos/dusminute.svg" alt="" width="56" height="56" />
+              <div class="exp-body">
+                <span class="exp-company">
+                  Gapoon (now DusMinute)
+                  <svg class="exp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M6 4.5h5.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="exp-role">UX UI Designer</span>
+                <span class="exp-tags">Home Service Marketplace</span>
+              </div>
+              <span class="exp-date">2017 – 2018</span>
+            </a>
+
           </div>
         </div>
 
-        <!-- ── Education ── -->
+        <!-- ── Tool Stack ──
+             Logo tiles are Figma exports that already carry their own opaque
+             rounded background, so the same file reads correctly in both
+             themes without a light/dark variant. -->
         <div class="bio-section">
-          <p class="ds-h2">Education</p>
-          <div class="exp-entry">
-            <span class="exp-date">2011 – 2015</span>
-            <span class="exp-title">Electronics &amp; Instrumentation (BE)</span>
-            <span class="exp-date">Sathyabama University, Chennai</span>
+          <p class="ds-h2">Tool Stack</p>
+          <div class="tool-stack">
+            <span class="tool-chip"><img src="assets/logos/figma.svg" alt="" width="20" height="20" />Figma</span>
+            <span class="tool-chip"><img src="assets/logos/claude.svg" alt="" width="20" height="20" />Claude</span>
+            <span class="tool-chip"><img src="assets/logos/claude-code.svg" alt="" width="20" height="20" />Claude Code</span>
+            <span class="tool-chip"><img src="assets/logos/github.svg" alt="" width="20" height="20" />GitHub</span>
+            <span class="tool-chip"><img src="assets/logos/warp.svg" alt="" width="20" height="20" />Warp</span>
+            <span class="tool-chip"><img src="assets/logos/vscode.svg" alt="" width="20" height="20" />VS Code</span>
+            <span class="tool-chip"><img src="assets/logos/chatgpt.svg" alt="" width="20" height="20" />ChatGPT</span>
+            <span class="tool-chip"><img src="assets/logos/mobbin.svg" alt="" width="20" height="20" />Mobbin</span>
+            <span class="tool-chip"><img src="assets/logos/hotjar.svg" alt="" width="20" height="20" />Hotjar</span>
+            <span class="tool-chip"><img src="assets/logos/maze.svg" alt="" width="20" height="20" />Maze</span>
+            <span class="tool-chip"><img src="assets/logos/wispr-flow.svg" alt="" width="20" height="20" />Wispr Flow</span>
+            <span class="tool-chip"><img src="assets/logos/notion.svg" alt="" width="20" height="20" />Notion</span>
+          </div>
+        </div>
+
+        <!-- ── Closing CTA ──
+             Holds the contact links that used to sit in the footer. -->
+        <div class="bio-section cta-section">
+          <div class="cta-text">
+            <p class="ds-h2">Looking for my next challenge</p>
+            <p class="cta-sub">Open to Senior, Lead and Staff Product Design opportunities.</p>
+          </div>
+          <div class="btn-row">
+            <div class="email-tooltip-wrapper">
+              <button class="btn btn-outline email-copy">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.25" y="3" width="13.5" height="10" rx="2.25" stroke="currentColor" stroke-width="1.3"/><path d="M2.2 4.7l4.85 3.55a1.6 1.6 0 0 0 1.9 0L13.8 4.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Get in Touch
+              </button>
+              <span class="email-tooltip">anupambhowmick123@gmail.com</span>
+            </div>
+            <a class="btn btn-ghost" href="https://linkedin.com/in/anupambhowmick" target="_blank" rel="noopener">
+              LinkedIn
+              <svg class="exp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M6 4.5h5.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
           </div>
         </div>
 
@@ -212,14 +282,11 @@
 
       <!-- Footer -->
       <div class="ds-footer-row">
-        <p class="ds-caption">© 2026 Anupam Bhowmick · Built with Claude Code</p>
-        <nav class="ds-link-row">
-          <div class="email-tooltip-wrapper">
-            <a href="#" class="ds-link-muted email-copy">Email</a>
-            <span class="email-tooltip">anupambhowmick123@gmail.com</span>
-          </div>
-          <a href="https://linkedin.com/in/anupambhowmick" target="_blank" rel="noopener" class="ds-link-muted">LinkedIn</a>
-        </nav>
+        <p class="ds-caption">© 2026 Anupam Bhowmick. All rights reserved.</p>
+        <p class="ds-caption footer-built">
+          <img src="assets/built-with-claude-code.svg" alt="" width="16" height="10" />
+          Built with Claude Code.
+        </p>
       </div>
 
     </div><!-- /.content -->

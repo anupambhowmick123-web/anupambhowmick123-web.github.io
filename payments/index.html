@@ -53,8 +53,13 @@
       <button class="nav-link" id="resume-trigger">Resume</button>
     </div>
     <div class="nav-right">
+      <!-- Email — icon-only now that the full "Get in Touch" CTA lives in the
+           closing section. Still copies the address on click; the label moves
+           to aria-label so the button keeps an accessible name. -->
       <div class="email-tooltip-wrapper">
-        <button class="nav-link email-copy">Get in Touch</button>
+        <button class="nav-link nav-icon-link email-copy" aria-label="Copy email address">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.25" y="3" width="13.5" height="10" rx="2.25" stroke="currentColor" stroke-width="1.3"/><path d="M2.2 4.7l4.85 3.55a1.6 1.6 0 0 0 1.9 0L13.8 4.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
         <span class="email-tooltip">anupambhowmick123@gmail.com</span>
       </div>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">
@@ -336,18 +341,38 @@
           </a>
         </div>
 
+        <!-- ── Closing CTA ──
+             Same component as the homepage; holds the contact links that
+             used to sit in the footer. -->
+        <div class="bio-section cta-section">
+          <div class="cta-text">
+            <p class="ds-h2">Looking for my next challenge</p>
+            <p class="cta-sub">Open to Senior, Lead and Staff Product Design opportunities.</p>
+          </div>
+          <div class="btn-row">
+            <div class="email-tooltip-wrapper">
+              <button class="btn btn-outline email-copy">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.25" y="3" width="13.5" height="10" rx="2.25" stroke="currentColor" stroke-width="1.3"/><path d="M2.2 4.7l4.85 3.55a1.6 1.6 0 0 0 1.9 0L13.8 4.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Get in Touch
+              </button>
+              <span class="email-tooltip">anupambhowmick123@gmail.com</span>
+            </div>
+            <a class="btn btn-ghost" href="https://linkedin.com/in/anupambhowmick" target="_blank" rel="noopener">
+              LinkedIn
+              <svg class="exp-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M6 4.5h5.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
       </div><!-- /.project-main -->
 
       <!-- Footer -->
       <div class="ds-footer-row">
-        <p class="ds-caption">© 2026 Anupam Bhowmick · Built with Claude Code</p>
-        <nav class="ds-link-row">
-          <div class="email-tooltip-wrapper">
-            <a href="#" class="ds-link-muted email-copy">Email</a>
-            <span class="email-tooltip">anupambhowmick123@gmail.com</span>
-          </div>
-          <a href="https://linkedin.com/in/anupambhowmick" target="_blank" rel="noopener" class="ds-link-muted">LinkedIn</a>
-        </nav>
+        <p class="ds-caption">© 2026 Anupam Bhowmick. All rights reserved.</p>
+        <p class="ds-caption footer-built">
+          <img src="/assets/built-with-claude-code.svg" alt="" width="16" height="10" />
+          Built with Claude Code.
+        </p>
       </div>
 
     </div><!-- /.content -->

@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page not found — Anupam Bhowmick</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/style.css" />
   <script>if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light')}</script>
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Page not found — Anupam Bhowmick" />
   <meta property="og:description" content="The page you're looking for doesn't exist or has been moved." />
-  <meta property="og:url" content="https://anupambhowmick.in/404.html" />
+  <meta property="og:url" content="https://anupambhowmick.in/404" />
   <meta property="og:site_name" content="Anupam Bhowmick" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Page not found — Anupam Bhowmick" />
@@ -31,17 +31,32 @@
   </nav>
 
   <div class="page-404">
-    <div class="page-404-inner">
-      <p class="page-404-code">404</p>
-      <p class="ds-h3" style="color: var(--light-1);">Page not found</p>
-      <p class="ds-body" style="text-align: center;">The page you're looking for doesn't exist or has been moved.</p>
-      <div class="btn-row" style="justify-content: center;">
-        <a href="/" class="btn btn-primary">Go to homepage</a>
-        <button onclick="window.location.reload()" class="btn btn-secondary">Reload</button>
+    <div class="page-404-main">
+      <div class="page-404-inner">
+        <!-- The three lines are one group so they can be spaced tighter than
+             the distance down to the buttons. -->
+        <div class="page-404-text">
+          <p class="page-404-code">404</p>
+          <p class="ds-h3">Page not found</p>
+          <p class="ds-body">The page you're looking for doesn't exist or has been moved.</p>
+        </div>
+        <div class="btn-row">
+          <a href="/" class="btn btn-outline">Take me Home</a>
+          <button onclick="window.location.reload()" class="btn btn-ghost">Reload</button>
+        </div>
       </div>
+    </div>
+
+    <!-- Footer — same row as every other page -->
+    <div class="ds-footer-row">
+      <p class="ds-caption">© 2026 Anupam Bhowmick. All rights reserved.</p>
+      <p class="ds-caption footer-built">
+        <img src="/assets/built-with-claude-code.svg" alt="" width="16" height="10" />
+        Built with Claude Code.
+      </p>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>

@@ -35,14 +35,25 @@ if (loadingScreen) {
 
 // ── Email copy to clipboard ───────────────────────────────
 let snackbarTimer;
-function showSnackbar(message) {
+// Success tick shown alongside copy confirmations. Green comes from the
+// --success token in style.css, which flips per theme because the tooltip
+// and snackbar surfaces invert with it.
+const COPY_TICK = '<svg class="copy-tick" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function showSnackbar(message, withTick) {
   let snackbar = document.querySelector('.snackbar');
   if (!snackbar) {
     snackbar = document.createElement('div');
     snackbar.className = 'snackbar';
     document.body.appendChild(snackbar);
   }
-  snackbar.textContent = message;
+  if (withTick) {
+    snackbar.innerHTML = COPY_TICK + '<span></span>';
+    snackbar.querySelector('span').textContent = message;
+  } else {
+    snackbar.textContent = message;
+  }
+  snackbar.classList.toggle('has-tick', !!withTick);
   snackbar.classList.add('visible');
   clearTimeout(snackbarTimer);
   snackbarTimer = setTimeout(() => snackbar.classList.remove('visible'), 1800);
@@ -56,15 +67,21 @@ document.querySelectorAll('.email-copy').forEach(link => {
       const wrapper = link.closest('.email-tooltip-wrapper');
       const tooltip = wrapper ? wrapper.querySelector('.email-tooltip') : null;
       if (tooltip) {
-        const original = tooltip.textContent;
-        tooltip.textContent = 'Email copied!';
+        // Cache the address once. Reading it back off the element each time
+        // meant a second click within the 1.8s window captured "Email
+        // copied!" as the label and the tooltip never returned to the address.
+        if (!tooltip.dataset.label) tooltip.dataset.label = tooltip.textContent;
+        tooltip.innerHTML = COPY_TICK + '<span>Email copied!</span>';
+        tooltip.classList.add('has-tick');
         tooltip.style.opacity = '1';
-        setTimeout(() => {
-          tooltip.textContent = original;
+        clearTimeout(tooltip._resetTimer);
+        tooltip._resetTimer = setTimeout(() => {
+          tooltip.textContent = tooltip.dataset.label;
+          tooltip.classList.remove('has-tick');
           tooltip.style.opacity = '';
         }, 1800);
       }
-      showSnackbar('Email copied!');
+      showSnackbar('Email copied!', true);
     });
   });
 });

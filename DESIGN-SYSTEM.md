@@ -39,6 +39,8 @@ Documents the typography, spacing, and color token systems in `style.css`. Refer
 - **2026-08-18** (branch `mobile-scroll-fix`) — **Bug fix:** on mobile, the Projects section visibly drifted up and down while scrolling. Cause: `.bio-identity-group`'s ≤900px `min-height` used **`100dvh`**. `dvh` is the *dynamic* viewport height — by definition it tracks the viewport as mobile browser chrome shows/hides, growing ~60–100px in real time as the address bar collapses on scroll. The hero box therefore resized mid-scroll and dragged everything below it, including Projects, along with the address-bar animation. (The original code comment claimed `dvh` was chosen so chrome collapsing "doesn't change the result mid-scroll" — exactly backwards; `dvh` is the one viewport unit guaranteed to change mid-scroll.) Changed to **`100lvh`**, a stable unit that never changes during scroll. `lvh` (large viewport height, chrome hidden) rather than `svh` because it's the larger of the two stable units, so the box is at least as tall as the viewport in *both* the chrome-visible and chrome-hidden states and Projects stays below the fold either way; `svh` would size to the chrome-visible viewport and let Projects peek in once the address bar hid. The `100vh` fallback line before it is unchanged. Trade-off: while the address bar is visible, the hero reserves slightly more height than the visible area, so there's a little extra empty space to scroll past before Projects — the cost of the guarantee, and stable either way.
 - **2026-08-18** (branch `mobile-changes`) — Projects now starts in the second fold at every breakpoint, matching desktop's existing behavior. Single-property change at ≤900px: `.bio-identity-group`'s `min-height` went from `auto` to `calc(100dvh - var(--nav-height) - var(--space-128))` (with a `100vh` line before it as the fallback half of a progressive-enhancement pair). Everything else in that rule — `justify-content: flex-start` and `gap: var(--space-160)` — is deliberately left exactly as it was, and the ≤600px `.bio-identity-group { gap: var(--space-96); }` override is untouched too, so **no element inside the hero moves**: the top padding above the name, the name/role/location block, the internal gap, and the statement/bio block all render identically to before. The box simply stretches to the bottom of the first screen, which grows only the empty space *below* the bio block — i.e. the gap between the bio section and Projects. Previously the box sized to its natural content height, so on shorter/narrower viewports Projects rendered above the fold and was visible before any scroll. The `--space-128` in the calc is the same token `body.home .page` uses for its top padding at this breakpoint (referenced, not duplicated as a literal), and that rule's `body.home .page` specificity (0,2,0) beats the ≤600px `.page` (0,1,0) override, so the 128px — and therefore the calc — holds at every mobile width. Desktop (>900px) is not touched at all.
 
+- **2026-08-22** (branch `ver5`) — Homepage lower half rebuilt from a new Figma pass. **Experience** restructured from a flat date/title list into logo · (company / role / domain tags) · right-pinned date rows, each an outbound link; content re-scoped too (single Xoxoday entry split into Plum + Empuls, Algebra Analytics dropped). **Education removed**, replaced by a new **Tool Stack** section (12 `.tool-chip` logo chips). New **closing CTA** ("Looking for my next challenge") absorbs the Email/LinkedIn links that used to sit in the footer; the footer is now copyright + "Built with Claude Code". Nav "Get in Touch" became an icon-only email button (`.nav-icon-link`, label moved to `aria-label`). **Two new token families added in this pass** — `--radius-*` and `--icon-*`/`--exp-logo` (see the Radius and Icon sizes sections below) — because both radius and icon dimensions had previously been raw px everywhere; every pre-existing `border-radius` declaration in `style.css` was rewritten onto the new radius tokens in the same pass, a pure aliasing change with no rendered value altered. One new type token, `--type-h3-tight`, was added for `.exp-company`: `--type-h3`'s 1.75 line-height is built for standalone card titles and reads too airy for a name sitting directly above two sub-lines. Company logo SVGs (Figma exports) bake their own opaque rounded tile into the artwork, so a single file serves both themes and `.exp-logo` deliberately sets no `border-radius` — adding one would clip the baked tile. `body.home .content` gained an explicit gap (`--space-96`, `--space-60` at ≤600px), pulled in from the base `--space-200`; `.content` has exactly two children on the homepage, so that rule only ever controls the CTA-to-footer distance. It has to be restated inside the ≤600px block because `body.home .content` (0,1,1) outranks the plain `.content` rules there — the same specificity trap the existing `body.payments .content` rule already sits in.
+
 ---
 
 ## Typography
@@ -51,7 +53,8 @@ All tokens are `font` shorthand values (`weight size/line-height family`), appli
 | `--type-h1` | Sora 24/600/1.33 | 22/600/1.3 | 20/600/1.3 | `.ds-h2`, `.ds-h2-muted`, `.ds-h3`, `.cs-section-heading`, `.bio-statement`, `.ds-h3-muted` |
 | `--type-h2` | Sora 20/600/1.4 | 18/600/1.4 | no change | `.project-section-heading` |
 | `--type-subtitle` | Sora 14/400/1.5 | no change | no change | `.cs-hero-desc`, `.cs-workflow-line` |
-| `--type-h3` | Sora 16/600/1.75 | 16/600/1.6 | no change | `.ds-body-highlight`, `.exp-title`, `.work-focus-label`, `.project-subsection-heading`, `.cs-sub-heading`, `.cs-impact-heading`, `.project-card-title`, `.text-highlight`, `.bio-company` |
+| `--type-h3` | Sora 16/600/1.75 | 16/600/1.6 | no change | `.ds-body-highlight`, `.work-focus-label`, `.project-subsection-heading`, `.cs-sub-heading`, `.cs-impact-heading`, `.project-card-title`, `.text-highlight`, `.bio-company` |
+| `--type-h3-tight` | Sora 16/600/1.4 | no change | no change | `.exp-company` |
 | `--type-body` | Sora 16/400/1.6 | no change | 15/400/1.6 | `.ds-body`, `.ds-body p`, `.ds-body li`, `.principles-list li`, `.bio-text`, `.work-intro`, `.work-focus-desc`, `.project-card-body`, `.project-hero-desc`, `.project-body`, `.project-body li`, `.project-role-list li`, `.project-impact-list li`, `.cs-body`, `.cs-body li`, `.cs-impact-item` |
 | `--type-caption` | Sora 12/400/1.4 | no change | no change | `.ds-caption`, `.project-card-tag`, `.exp-date`, `.cs-flow-box p`, `.cs-img-caption`, `.cs-workflow-caption`, `.email-tooltip` |
 | `--type-nav` | Sora 14/600/1.4 | no change | no change | `.resume-modal-title`, `.resume-modal-download`, `.nav-link`, `.ds-link`, `.ds-link-muted`, `.btn`, `.btn-primary`, `.btn-secondary`, `.tab-btn` |
@@ -137,6 +140,35 @@ Two outliers had the largest visual shift of the whole snap-to-4px pass, ±2px e
 | 282px | `--space-280` | 280px | −2px | `.bio-identity-group` gap — homepage hero, the gap between the name/role/company block and the statement/bio paragraph block |
 
 Full list of every outlier snapped to the nearest 4px step during this pass, all folded into the tokens above with no dedicated token created just for the outlier: 5→4, 6→8, 10→12, 14→16, 22→24, 30→32, 33→32, 50→48, 282→280.
+
+---
+
+## Radius
+
+Added 2026-08-22. These are aliases for the values already in use across `style.css`, not new decisions — every existing `border-radius` declaration was rewritten onto them in the same pass.
+
+| Token | Value | Used by |
+|---|---|---|
+| `--radius-xs` | 2px | images inside case-study panels |
+| `--radius-sm` | 4px | image panels, modals, `.btn` default, lightbox |
+| `--radius-md` | 8px | `.project-card-tag`, `.tool-chip`, `.btn-outline`, `.btn-ghost`, `.snackbar` |
+| `--radius-lg` | 12px | `.project-card`, `.project-card-thumb` |
+
+Two values are deliberately left outside the scale: the literal `0` (never tokenized, same rule as spacing), and `.tab-btn`'s `3px`, a single outlier that has no other user.
+
+---
+
+## Icon sizes
+
+Added 2026-08-22. Every inline `<svg>` and logo `<img>` resolves to one of these; before this pass icon dimensions were raw px scattered across component rules.
+
+| Token | Value | Used by |
+|---|---|---|
+| `--icon-sm` | 16px | `.exp-arrow` (external-link arrow), `.btn-outline`/`.btn-ghost` icons, `.footer-built` mark |
+| `--icon-md` | 20px | `.nav-icon-link` (nav email), `.btn` default, `.tool-chip` logos |
+| `--exp-logo` | 56px → 48px at ≤600px | `.exp-logo` company tiles, and the `.exp-entry` grid column that holds them |
+
+`--exp-logo` restates per breakpoint inside the media query, the same mechanism the `--type-*` tokens use — the mobile grid column references the token rather than repeating `48px`, so size and column stay in sync from one edit.
 
 ---
 
