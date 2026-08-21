@@ -40,6 +40,10 @@ let snackbarTimer;
 // and snackbar surfaces invert with it.
 const COPY_TICK = '<svg class="copy-tick" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+// Must stay >= .email-tooltip's opacity transition in style.css (0.15s).
+// The tooltip's label is swapped back only after this has elapsed.
+const TOOLTIP_FADE_MS = 200;
+
 function showSnackbar(message, withTick) {
   let snackbar = document.querySelector('.snackbar');
   if (!snackbar) {
@@ -75,10 +79,25 @@ document.querySelectorAll('.email-copy').forEach(link => {
         tooltip.classList.add('has-tick');
         tooltip.style.opacity = '1';
         clearTimeout(tooltip._resetTimer);
+        clearTimeout(tooltip._swapTimer);
+
+        // Two steps, not one. Restoring the label and releasing opacity in
+        // the same tick meant the address was already back in the DOM while
+        // the 0.15s fade-out was still running — so it flashed on screen on
+        // the way out. Fade first, swap only once it is fully invisible.
         tooltip._resetTimer = setTimeout(() => {
-          tooltip.textContent = tooltip.dataset.label;
-          tooltip.classList.remove('has-tick');
-          tooltip.style.opacity = '';
+          // Explicit '0' rather than '' — clearing the inline value hands
+          // control back to CSS, and :hover would hold it visible while the
+          // text underneath changed. The pointer is usually still on the
+          // button right after a click, so that is the common case.
+          tooltip.style.opacity = '0';
+          tooltip._swapTimer = setTimeout(() => {
+            tooltip.textContent = tooltip.dataset.label;
+            tooltip.classList.remove('has-tick');
+            // Release to CSS now that the label is correct: if the pointer
+            // is still over the button, :hover fades the address back in.
+            tooltip.style.opacity = '';
+          }, TOOLTIP_FADE_MS);
         }, 1800);
       }
       showSnackbar('Email copied!', true);
